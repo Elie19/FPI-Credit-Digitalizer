@@ -24,17 +24,26 @@ interface LayoutProps {
 
 const steps = [
   { id: FormStep.IDENTIFICATION, label: 'Identification', icon: LayoutGrid },
-  { id: FormStep.ENTREPRISE, label: 'L\'Entreprise', icon: Building2 },
+  // Fix: Changed FormStep.ENTREPRISE to FormStep.GENERAL_ENTREPRISE
+  { id: FormStep.GENERAL_ENTREPRISE, label: 'L\'Entreprise', icon: Building2 },
   { id: FormStep.ADMIN_FISCAL, label: 'Admin & Fiscal', icon: FileLock2 },
-  { id: FormStep.DIRIGEANTS, label: 'Dirigeants', icon: Users },
-  { id: FormStep.PATRIMOINE, label: 'Patrimoine', icon: Briefcase },
+  // Fix: Changed FormStep.DIRIGEANTS to FormStep.PROMOTEUR_DIRIGEANTS
+  { id: FormStep.PROMOTEUR_DIRIGEANTS, label: 'Dirigeants', icon: Users },
+  // Fix: Changed FormStep.PATRIMOINE to FormStep.PATRIMOINE_MOYENS
+  { id: FormStep.PATRIMOINE_MOYENS, label: 'Patrimoine', icon: Briefcase },
   { id: FormStep.FINANCES_JURIDIQUE, label: 'Finances & Juridique', icon: CreditCard },
-  { id: FormStep.DESCRIPTION_PROJET, label: 'Description Projet', icon: FileText },
-  { id: FormStep.INVESTISSEMENTS, label: 'Investissements', icon: HardHat },
-  { id: FormStep.MARCHE_STRATEGIE, label: 'Marché & Stratégie', icon: Globe },
-  { id: FormStep.ENVIRONNEMENT, label: 'Qualité & Env.', icon: ShieldAlert },
-  { id: FormStep.CHECKLIST, label: 'Pièces Jointes', icon: ClipboardList },
-  { id: FormStep.DECLARATION, label: 'Déclaration', icon: PenTool },
+  // Fix: Changed FormStep.DESCRIPTION_PROJET to FormStep.PROJET_DESCRIPTION
+  { id: FormStep.PROJET_DESCRIPTION, label: 'Description Projet', icon: FileText },
+  // Fix: Changed FormStep.INVESTISSEMENTS to FormStep.PROGRAMME_INVESTISSEMENT
+  { id: FormStep.PROGRAMME_INVESTISSEMENT, label: 'Investissements', icon: HardHat },
+  // Fix: Changed FormStep.MARCHE_STRATEGIE to FormStep.DONNEES_MARCHE
+  { id: FormStep.DONNEES_MARCHE, label: 'Marché & Stratégie', icon: Globe },
+  // Fix: Changed FormStep.ENVIRONNEMENT to FormStep.QUALITE_ENVIRONNEMENT
+  { id: FormStep.QUALITE_ENVIRONNEMENT, label: 'Qualité & Env.', icon: ShieldAlert },
+  // Fix: Changed FormStep.CHECKLIST to FormStep.CHECKLIST_DOCUMENTS
+  { id: FormStep.CHECKLIST_DOCUMENTS, label: 'Pièces Jointes', icon: ClipboardList },
+  // Fix: Changed FormStep.DECLARATION to FormStep.DECLARATION_FINALE
+  { id: FormStep.DECLARATION_FINALE, label: 'Déclaration', icon: PenTool },
 ];
 
 export const Layout: React.FC<LayoutProps> = ({ children, currentStep, onStepClick }) => {
