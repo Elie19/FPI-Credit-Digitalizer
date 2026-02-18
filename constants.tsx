@@ -21,5 +21,5 @@ export const FPI_CHECKLIST: RequiredDoc[] = [
 ];
 
 export const FORME_JURIDIQUE_OPTIONS = [
-  'GIE', 'SAAG', 'SACA', 'SARL', 'SARLU', 'SAS', 'SAU', 'SCS', 'SNC', 'SP', 'Entreprise individuelle'
+  'GIE', 'SAAG', 'SACA', 'SARL', 'SARLU', 'SAS', 'SAU', 'SCS', 'SNC', 'SP', 'Entreprise individuelle / Établissement'
 ];

@@ -4,7 +4,6 @@ import { FormStep } from '../types';
 import { 
   LayoutGrid, 
   Building2, 
-  FileLock2, 
   Users, 
   Briefcase, 
   CreditCard, 
@@ -13,8 +12,11 @@ import {
   Globe, 
   ShieldAlert,
   ClipboardList,
-  PenTool
+  PenTool,
+  Landmark,
+  Leaf
 } from 'lucide-react';
+import { ThemeToggle } from './ui/ThemeToggle';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -24,42 +26,38 @@ interface LayoutProps {
 
 const steps = [
   { id: FormStep.IDENTIFICATION, label: 'Identification', icon: LayoutGrid },
-  // Fix: Changed FormStep.ENTREPRISE to FormStep.GENERAL_ENTREPRISE
-  { id: FormStep.GENERAL_ENTREPRISE, label: 'L\'Entreprise', icon: Building2 },
-  { id: FormStep.ADMIN_FISCAL, label: 'Admin & Fiscal', icon: FileLock2 },
-  // Fix: Changed FormStep.DIRIGEANTS to FormStep.PROMOTEUR_DIRIGEANTS
-  { id: FormStep.PROMOTEUR_DIRIGEANTS, label: 'Dirigeants', icon: Users },
-  // Fix: Changed FormStep.PATRIMOINE to FormStep.PATRIMOINE_MOYENS
+  { id: FormStep.SECTION_A, label: 'L\'Entreprise', icon: Building2 },
+  { id: FormStep.ADMIN_FISCAL, label: 'Personnel & Org.', icon: Users },
+  { id: FormStep.SECTION_C, label: 'Dirigeants', icon: Users },
   { id: FormStep.PATRIMOINE_MOYENS, label: 'Patrimoine', icon: Briefcase },
   { id: FormStep.FINANCES_JURIDIQUE, label: 'Finances & Juridique', icon: CreditCard },
-  // Fix: Changed FormStep.DESCRIPTION_PROJET to FormStep.PROJET_DESCRIPTION
   { id: FormStep.PROJET_DESCRIPTION, label: 'Description Projet', icon: FileText },
-  // Fix: Changed FormStep.INVESTISSEMENTS to FormStep.PROGRAMME_INVESTISSEMENT
   { id: FormStep.PROGRAMME_INVESTISSEMENT, label: 'Investissements', icon: HardHat },
-  // Fix: Changed FormStep.MARCHE_STRATEGIE to FormStep.DONNEES_MARCHE
   { id: FormStep.DONNEES_MARCHE, label: 'Marché & Stratégie', icon: Globe },
-  // Fix: Changed FormStep.ENVIRONNEMENT to FormStep.QUALITE_ENVIRONNEMENT
-  { id: FormStep.QUALITE_ENVIRONNEMENT, label: 'Qualité & Env.', icon: ShieldAlert },
-  // Fix: Changed FormStep.CHECKLIST to FormStep.CHECKLIST_DOCUMENTS
+  { id: FormStep.QUALITE_ENVIRONNEMENT, label: 'Qualité & Prod.', icon: ShieldAlert },
+  { id: FormStep.GARANTIES_OFFERTES, label: 'Garanties', icon: Landmark },
+  { id: FormStep.EVALUATION_ENVIRONNEMENTALE, label: 'Impact Environnemental', icon: Leaf },
   { id: FormStep.CHECKLIST_DOCUMENTS, label: 'Pièces Jointes', icon: ClipboardList },
-  // Fix: Changed FormStep.DECLARATION to FormStep.DECLARATION_FINALE
   { id: FormStep.DECLARATION_FINALE, label: 'Déclaration', icon: PenTool },
 ];
 
 export const Layout: React.FC<LayoutProps> = ({ children, currentStep, onStepClick }) => {
   return (
-    <div className="min-h-screen flex bg-[#F8FAFC]">
+    <div className="min-h-screen flex bg-[#F8FAFC] dark:bg-slate-950 transition-colors duration-300">
       {/* SIDEBAR */}
-      <aside className="w-80 bg-white border-r border-slate-200 flex flex-col sticky top-0 h-screen overflow-y-auto z-20">
+      <aside className="w-80 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col sticky top-0 h-screen overflow-y-auto z-20 transition-colors duration-300">
         <div className="p-8">
-          <div className="flex items-center gap-3 mb-10">
-            <div className="w-10 h-10 bg-slate-900 text-white rounded-xl flex items-center justify-center font-black text-xl shadow-xl shadow-slate-200">
-              F
+          <div className="flex items-center justify-between mb-10">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 rounded-xl flex items-center justify-center font-black text-xl shadow-xl shadow-slate-200 dark:shadow-none">
+                F
+              </div>
+              <div>
+                <h1 className="font-black text-lg text-slate-900 dark:text-white leading-none uppercase tracking-tighter">FPI RDC</h1>
+                <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest mt-1">Crédit Digital</p>
+              </div>
             </div>
-            <div>
-              <h1 className="font-black text-lg text-slate-900 leading-none uppercase tracking-tighter">FPI RDC</h1>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Crédit Digital</p>
-            </div>
+            <ThemeToggle />
           </div>
 
           <nav className="space-y-1">
@@ -74,21 +72,21 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentStep, onStepCli
                   onClick={() => onStepClick(step.id)}
                   className={`w-full group flex items-center gap-4 p-3 rounded-2xl transition-all duration-300 relative ${
                     isActive 
-                      ? 'bg-slate-900 text-white shadow-2xl shadow-slate-300' 
-                      : 'text-slate-400 hover:bg-slate-50 hover:text-slate-900'
+                      ? (step.id === FormStep.EVALUATION_ENVIRONNEMENTALE ? 'bg-emerald-900 dark:bg-emerald-100 text-white dark:text-emerald-900 shadow-2xl shadow-emerald-200/50 dark:shadow-none' : 'bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 shadow-2xl shadow-slate-300/50 dark:shadow-none')
+                      : 'text-slate-400 dark:text-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200'
                   }`}
                 >
                   <div className={`shrink-0 w-8 h-8 rounded-xl flex items-center justify-center transition-colors ${
-                    isActive ? 'bg-blue-600' : isPast ? 'bg-green-100 text-green-600' : 'bg-slate-100 group-hover:bg-slate-200'
+                    isActive ? (step.id === FormStep.EVALUATION_ENVIRONNEMENTALE ? 'bg-emerald-600 dark:bg-emerald-500' : 'bg-blue-600 dark:bg-blue-500') : isPast ? 'bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400' : 'bg-slate-100 dark:bg-slate-800 group-hover:bg-slate-200 dark:group-hover:bg-slate-700'
                   }`}>
                     <Icon size={16} />
                   </div>
-                  <span className={`text-[11px] font-black uppercase tracking-wide text-left ${isActive ? 'text-white' : 'text-slate-500'}`}>
+                  <span className={`text-[11px] font-black uppercase tracking-wide text-left ${isActive ? 'text-white dark:text-slate-900' : 'text-slate-500 dark:text-slate-400'}`}>
                     {step.label}
                   </span>
                   
                   {isActive && (
-                    <div className="absolute right-4 w-1.5 h-1.5 bg-blue-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,1)]" />
+                    <div className={`absolute right-4 w-1.5 h-1.5 rounded-full shadow-[0_0_10px_rgba(59,130,246,1)] ${step.id === FormStep.EVALUATION_ENVIRONNEMENTALE ? 'bg-emerald-400' : 'bg-blue-500'}`} />
                   )}
                 </button>
               );
@@ -97,12 +95,12 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentStep, onStepCli
         </div>
 
         <div className="mt-auto p-8 pt-0">
-          <div className="bg-slate-50 rounded-3xl p-6 border border-slate-100">
+          <div className="bg-slate-50 dark:bg-slate-800/50 rounded-3xl p-6 border border-slate-100 dark:border-slate-800">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-              <span className="text-[10px] font-black text-slate-900 uppercase tracking-widest">Support En Ligne</span>
+              <span className="text-[10px] font-black text-slate-900 dark:text-slate-100 uppercase tracking-widest">Support En Ligne</span>
             </div>
-            <p className="text-[10px] text-slate-400 font-bold leading-relaxed uppercase tracking-tighter">
+            <p className="text-[10px] text-slate-400 dark:text-slate-500 font-bold leading-relaxed uppercase tracking-tighter">
               Délai moyen de réponse :<br/>15 minutes
             </p>
           </div>
@@ -111,15 +109,15 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentStep, onStepCli
 
       {/* CONTENT */}
       <main className="flex-1 overflow-x-hidden">
-        <header className="h-20 bg-white/80 backdrop-blur-md border-b border-slate-100 px-10 flex items-center justify-between sticky top-0 z-10">
+        <header className="h-20 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-100 dark:border-slate-800 px-10 flex items-center justify-between sticky top-0 z-10 transition-colors duration-300">
           <div className="flex items-center gap-4">
-            <span className="text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">Demande n° 2024-FPI-882</span>
-            <div className="h-4 w-px bg-slate-100" />
-            <span className="bg-blue-50 text-blue-600 text-[9px] font-black px-2 py-0.5 rounded-full uppercase">Brouillon Automatique</span>
+            <span className="text-[10px] font-black text-slate-300 dark:text-slate-700 uppercase tracking-[0.3em]">Demande n° 2024-FPI-882</span>
+            <div className="h-4 w-px bg-slate-100 dark:bg-slate-800" />
+            <span className={`text-[9px] font-black px-2 py-0.5 rounded-full uppercase ${currentStep === FormStep.EVALUATION_ENVIRONNEMENTALE ? 'bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400' : 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'}`}>Brouillon Automatique</span>
           </div>
           <div className="flex items-center gap-6">
-            <button className="text-[10px] font-black text-slate-500 uppercase tracking-widest hover:text-slate-900 transition-colors">Aide</button>
-            <button className="bg-slate-900 text-white px-5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-slate-200">Enregistrer</button>
+            <button className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest hover:text-slate-900 dark:hover:text-slate-100 transition-colors">Aide</button>
+            <button className={`${currentStep === FormStep.EVALUATION_ENVIRONNEMENTALE ? 'bg-emerald-900 dark:bg-emerald-100 hover:bg-emerald-700 dark:hover:bg-emerald-200 text-white dark:text-emerald-900 shadow-emerald-200/50 dark:shadow-none' : 'bg-slate-900 dark:bg-slate-100 hover:bg-slate-800 dark:hover:bg-slate-200 text-white dark:text-slate-900'} px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-slate-200 dark:shadow-none transition-all hover:-translate-y-0.5`}>Enregistrer</button>
           </div>
         </header>
 
