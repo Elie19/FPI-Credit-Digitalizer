@@ -1,20 +1,50 @@
 <div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+<img width="1200" height="475" alt="FPI Banner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
 </div>
 
-# Run and deploy your AI Studio app
+# FPI RDC - Plateforme de Crédit Digital
 
-This contains everything you need to run your app locally.
+Bienvenue sur l'application officielle de numérisation des demandes de crédit du **Fonds de Promotion de l'Industrie (FPI)**. Cette plateforme permet aux entreprises de soumettre et de gérer leurs dossiers de financement de manière intuitive, sécurisée et moderne.
 
-View your app in AI Studio: https://ai.studio/apps/drive/1aKZxx6MHqgCWUmS4MOJYyIvPbe-cTcHK
+## 🚀 Fonctionnalités clés
 
-## Run Locally
+- **Formulaire Multi-étapes** : Un parcours guidé de l'identification à la déclaration finale.
+- **Gestion Documentaire** : Téléchargement et vérification des pièces jointes requises.
+- **Interface Moderne** : Design épuré avec support du mode sombre/clair.
+- **Validation en Temps Réel** : Assistance à la saisie pour garantir la complétude des dossiers.
 
-**Prerequisites:**  Node.js
+## 💻 Installation Locale
 
+Suivez ces étapes pour lancer l'application sur votre machine :
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+### Prérequis
+- [Node.js](https://nodejs.org/) (version 18 ou supérieure recommandée)
+
+### Étapes d'installation
+
+1. **Cloner le projet et installer les dépendances**
+   ```bash
+   npm install
+   ```
+
+2. **Configuration de l'environnement**
+   Créez un fichier `.env.local` à la racine du projet et ajoutez votre clé de service :
+   ```env
+   GEMINI_API_KEY=votre_cle_de_service
+   ```
+
+3. **Lancer l'application**
+   ```bash
+   npm run dev
+   ```
+   L'application sera accessible sur `http://localhost:3000`.
+
+## 🛠️ Technologies utilisées
+
+- **React 19** & **TypeScript**
+- **Tailwind CSS** (Styling)
+- **Lucide React** (Iconographie)
+- **Vite** (Build Tool)
+
+---
+© 2026 Fonds de Promotion de l'Industrie (FPI) - République Démocratique du Congo.
