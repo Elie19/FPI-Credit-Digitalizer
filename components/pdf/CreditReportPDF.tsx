@@ -13,8 +13,9 @@ const styles = StyleSheet.create({
   },
   header: {
     marginBottom: 30,
-    borderBottom: 2,
+    borderBottomWidth: 2,
     borderBottomColor: '#0f172a',
+    borderBottomStyle: 'solid',
     paddingBottom: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -45,8 +46,9 @@ const styles = StyleSheet.create({
     padding: 8,
     marginBottom: 10,
     textTransform: 'uppercase',
-    borderLeft: 4,
+    borderLeftWidth: 4,
     borderLeftColor: '#0f172a',
+    borderLeftStyle: 'solid',
   },
   grid: {
     flexDirection: 'row',
@@ -73,18 +75,21 @@ const styles = StyleSheet.create({
     marginTop: 10,
     borderWidth: 1,
     borderColor: '#e2e8f0',
+    borderStyle: 'solid',
   },
   tableHeader: {
     flexDirection: 'row',
     backgroundColor: '#f8fafc',
     borderBottomWidth: 1,
     borderBottomColor: '#e2e8f0',
+    borderBottomStyle: 'solid',
     padding: 6,
   },
   tableRow: {
     flexDirection: 'row',
     borderBottomWidth: 1,
     borderBottomColor: '#f1f5f9',
+    borderBottomStyle: 'solid',
     padding: 6,
   },
   tableCell: {
@@ -99,8 +104,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 8,
     color: '#94a3b8',
-    borderTop: 1,
+    borderTopWidth: 1,
     borderTopColor: '#f1f5f9',
+    borderTopStyle: 'solid',
     paddingTop: 10,
   },
   coverPage: {
@@ -129,6 +135,7 @@ const styles = StyleSheet.create({
   coverDossierBox: {
     borderWidth: 2,
     borderColor: '#fff',
+    borderStyle: 'solid',
     padding: 20,
     marginBottom: 60,
   },
@@ -266,6 +273,28 @@ export const CreditReportPDF: React.FC<Props> = ({ data }) => {
           </View>
         </View>
 
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>4. Antécédents Financiers & Juridiques</Text>
+          <View style={styles.grid}>
+            <View style={styles.gridItem}>
+              <Text style={styles.label}>Déjà bénéficié d'un concours ?</Text>
+              <Text style={styles.value}>{data.dejaBeneficieConcours ? "Oui" : "Non"}</Text>
+            </View>
+            <View style={styles.gridItem}>
+              <Text style={styles.label}>Historique de faillite ?</Text>
+              <Text style={styles.value}>{data.faillite ? "Oui" : "Non"}</Text>
+            </View>
+            <View style={styles.gridItem}>
+              <Text style={styles.label}>Poursuites judiciaires ?</Text>
+              <Text style={styles.value}>{data.poursuites ? "Oui" : "Non"}</Text>
+            </View>
+            <View style={styles.gridItem}>
+              <Text style={styles.label}>Antécédents fiscaux ?</Text>
+              <Text style={styles.value}>{data.antecedentsFiscaux ? "Oui" : "Non"}</Text>
+            </View>
+          </View>
+        </View>
+
         <Text style={styles.footer} render={({ pageNumber, totalPages }) => (
           `Page ${pageNumber} / ${totalPages} - Rapport de Crédit N° ${data.dossierNumber}`
         )} fixed />
@@ -279,7 +308,7 @@ export const CreditReportPDF: React.FC<Props> = ({ data }) => {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>4. Personnel et Organisation</Text>
+          <Text style={styles.sectionTitle}>5. Personnel et Organisation</Text>
           <View style={styles.grid}>
             <View style={styles.gridItem}>
               <Text style={styles.label}>Personnel Clé</Text>
@@ -299,7 +328,7 @@ export const CreditReportPDF: React.FC<Props> = ({ data }) => {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>5. Description du Projet</Text>
+          <Text style={styles.sectionTitle}>6. Description du Projet</Text>
           <View style={{ marginBottom: 10 }}>
             <Text style={styles.label}>Historique et Justification</Text>
             <Text style={{ fontSize: 9, lineHeight: 1.4 }}>{data.projetHistorique || "Non renseigné"}</Text>
@@ -321,7 +350,7 @@ export const CreditReportPDF: React.FC<Props> = ({ data }) => {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>6. Marché et Stratégie</Text>
+          <Text style={styles.sectionTitle}>7. Marché et Stratégie</Text>
           <View style={styles.grid}>
             <View style={styles.gridItem}>
               <Text style={styles.label}>Croissance du Marché</Text>
@@ -330,6 +359,14 @@ export const CreditReportPDF: React.FC<Props> = ({ data }) => {
             <View style={styles.gridItem}>
               <Text style={styles.label}>Perspectives d'Évolution</Text>
               <Text style={styles.value}>{data.perspectivesEvolution}</Text>
+            </View>
+            <View style={styles.gridItem}>
+              <Text style={styles.label}>Avantage Géographique</Text>
+              <Text style={styles.value}>{data.avantageGeographique}</Text>
+            </View>
+            <View style={styles.gridItem}>
+              <Text style={styles.label}>Résilience Économique</Text>
+              <Text style={styles.value}>{data.resilienceEconomique}</Text>
             </View>
           </View>
           <View style={{ marginTop: 5 }}>
@@ -343,7 +380,7 @@ export const CreditReportPDF: React.FC<Props> = ({ data }) => {
         )} fixed />
       </Page>
 
-      {/* Page 3: Garanties & Déclaration */}
+      {/* Page 3: Technique & Environnement */}
       <Page size="A4" style={styles.page}>
         <View style={styles.header}>
           <Text style={styles.headerText}>Crédit Digital | Rapport Officiel</Text>
@@ -351,7 +388,25 @@ export const CreditReportPDF: React.FC<Props> = ({ data }) => {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>7. Garanties et Environnement</Text>
+          <Text style={styles.sectionTitle}>8. Technique et Production</Text>
+          <View style={{ marginBottom: 10 }}>
+            <Text style={styles.label}>Processus de Production</Text>
+            <Text style={{ fontSize: 9, lineHeight: 1.4 }}>{data.processProduction || "Non renseigné"}</Text>
+          </View>
+          <View style={styles.grid}>
+            <View style={styles.gridItem}>
+              <Text style={styles.label}>Capacité Installée</Text>
+              <Text style={styles.value}>{data.installedCapacity.length} ligne(s) déclarée(s)</Text>
+            </View>
+            <View style={styles.gridItem}>
+              <Text style={styles.label}>Permis Obtenus</Text>
+              <Text style={styles.value}>{data.permisObtenus}</Text>
+            </View>
+          </View>
+        </View>
+
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>9. Garanties et Environnement</Text>
           <View style={styles.grid}>
             <View style={styles.gridItem}>
               <Text style={styles.label}>Titre de Propriété</Text>
@@ -373,8 +428,42 @@ export const CreditReportPDF: React.FC<Props> = ({ data }) => {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>8. Déclaration Finale</Text>
-          <View style={{ padding: 15, border: 1, borderColor: '#e2e8f0', backgroundColor: '#f8fafc' }}>
+          <Text style={styles.sectionTitle}>10. Évaluation Environnementale</Text>
+          <View style={styles.grid}>
+            <View style={styles.gridItem}>
+              <Text style={styles.label}>Étude d'Impact (EIE)</Text>
+              <Text style={styles.value}>{data.etudeImpactStatus}</Text>
+            </View>
+            <View style={styles.gridItem}>
+              <Text style={styles.label}>Consultation Publique</Text>
+              <Text style={styles.value}>{data.consultationPubliqueStatus}</Text>
+            </View>
+            <View style={styles.gridItem}>
+              <Text style={styles.label}>Suivi Environnemental</Text>
+              <Text style={styles.value}>{data.suiviEnvironnemental ? "Oui" : "Non"}</Text>
+            </View>
+            <View style={styles.gridItem}>
+              <Text style={styles.label}>Frais de Dossier Payés</Text>
+              <Text style={styles.value}>{data.fraisOuverturePayes ? "Oui" : "Non"}</Text>
+            </View>
+          </View>
+        </View>
+
+        <Text style={styles.footer} render={({ pageNumber, totalPages }) => (
+          `Page ${pageNumber} / ${totalPages} - Rapport de Crédit N° ${data.dossierNumber}`
+        )} fixed />
+      </Page>
+
+      {/* Page 4: Déclaration */}
+      <Page size="A4" style={styles.page}>
+        <View style={styles.header}>
+          <Text style={styles.headerText}>Crédit Digital | Rapport Officiel</Text>
+          <Text style={{ fontSize: 10 }}>Dossier: {data.dossierNumber}</Text>
+        </View>
+
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>11. Déclaration Finale</Text>
+          <View style={{ padding: 15, borderWidth: 1, borderColor: '#e2e8f0', borderStyle: 'solid', backgroundColor: '#f8fafc' }}>
             <Text style={{ fontSize: 10, lineHeight: 1.6, fontStyle: 'italic' }}>
               "Je, soussigné {data.declarationNom || "____________________"}, agissant au nom et pour le compte de l'entreprise {data.raisonSociale || "____________________"}, atteste par la présente que les informations contenues dans cette demande de financement sont exactes et sincères."
             </Text>
@@ -398,7 +487,7 @@ export const CreditReportPDF: React.FC<Props> = ({ data }) => {
           </View>
         </View>
 
-        <View style={{ marginTop: 40, padding: 10, backgroundColor: '#fef2f2', border: 1, borderColor: '#fee2e2' }}>
+        <View style={{ marginTop: 40, padding: 10, backgroundColor: '#fef2f2', borderWidth: 1, borderColor: '#fee2e2', borderStyle: 'solid' }}>
           <Text style={{ fontSize: 8, color: '#991b1b', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: 5 }}>Avertissement Légal</Text>
           <Text style={{ fontSize: 7, color: '#991b1b', lineHeight: 1.4 }}>
             Toute fausse déclaration ou falsification de document peut entraîner le rejet immédiat de la demande et des poursuites judiciaires conformément à la réglementation en vigueur. Ce document est strictement confidentiel et destiné uniquement à l'instruction du dossier de crédit.

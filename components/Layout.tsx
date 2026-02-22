@@ -23,6 +23,7 @@ interface LayoutProps {
   currentStep: FormStep;
   onStepClick: (step: FormStep) => void;
   dossierNumber?: string;
+  pdfButton?: React.ReactNode;
 }
 
 const steps = [
@@ -40,7 +41,7 @@ const steps = [
   { id: FormStep.DECLARATION_FINALE, label: 'Déclaration', icon: PenTool },
 ];
 
-export const Layout: React.FC<LayoutProps> = ({ children, currentStep, onStepClick, dossierNumber }) => {
+export const Layout: React.FC<LayoutProps> = ({ children, currentStep, onStepClick, dossierNumber, pdfButton }) => {
   return (
     <div className="min-h-screen flex bg-background text-foreground transition-colors duration-300">
       {/* SIDEBAR */}
@@ -115,6 +116,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentStep, onStepCli
             <span className={`text-[9px] font-black px-2 py-0.5 rounded-full uppercase ${currentStep === FormStep.EVALUATION_ENVIRONNEMENTALE ? 'bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400' : 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'}`}>Brouillon Automatique</span>
           </div>
           <div className="flex items-center gap-6">
+            {pdfButton}
             <button className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest hover:text-slate-900 dark:hover:text-slate-100 transition-colors">Aide</button>
             <button className={`${currentStep === FormStep.EVALUATION_ENVIRONNEMENTALE ? 'bg-emerald-900 dark:bg-emerald-100 hover:bg-emerald-700 dark:hover:bg-emerald-200 text-white dark:text-emerald-900 shadow-emerald-200/50 dark:shadow-none' : 'bg-slate-900 dark:bg-slate-100 hover:bg-slate-800 dark:hover:bg-slate-200 text-white dark:text-slate-900'} px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-slate-200 dark:shadow-none transition-all hover:-translate-y-0.5`}>Enregistrer</button>
           </div>

@@ -14,7 +14,9 @@ import { SectionI } from './components/sections/SectionI';
 import { SectionChecklist } from './components/sections/SectionChecklist';
 import { SectionDeclaration } from './components/sections/SectionDeclaration';
 import { SectionIdentification } from './components/sections/SectionIdentification';
-import { ArrowRight, ArrowLeft, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, ArrowLeft, CheckCircle2, FileDown, Loader2 } from 'lucide-react';
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import { CreditReportPDF } from './components/pdf/CreditReportPDF';
 
 // INITIALISATION AVEC VALEURS PAR DÉFAUT VIDES
 const INITIAL_DATA: CreditFormData = {
@@ -156,8 +158,30 @@ export default function App() {
   const TOTAL_STEPS = 12;
   const progress = Math.round(((currentStep + 1) / TOTAL_STEPS) * 100);
 
+  const pdfButton = (
+    <PDFDownloadLink 
+      document={<CreditReportPDF data={formData} />} 
+      fileName={`Rapport_Credit_${formData.dossierNumber}.pdf`}
+    >
+      {({ loading }) => (
+        <button
+          disabled={loading}
+          className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 dark:bg-blue-500 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 dark:shadow-none"
+        >
+          {loading ? <Loader2 className="animate-spin" size={14} /> : <FileDown size={14} />}
+          Rapport PDF
+        </button>
+      )}
+    </PDFDownloadLink>
+  );
+
   return (
-    <Layout currentStep={currentStep} onStepClick={setCurrentStep} dossierNumber={formData.dossierNumber}>
+    <Layout 
+      currentStep={currentStep} 
+      onStepClick={setCurrentStep} 
+      dossierNumber={formData.dossierNumber}
+      pdfButton={pdfButton}
+    >
       <div className="bg-card text-card-foreground rounded-[2.5rem] shadow-2xl shadow-slate-200/50 dark:shadow-none border border-border p-8 md:p-12 min-h-[800px] flex flex-col relative overflow-hidden transition-colors duration-300">
         
         {/* Header */}
