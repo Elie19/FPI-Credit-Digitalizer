@@ -22,17 +22,16 @@ interface LayoutProps {
   children: React.ReactNode;
   currentStep: FormStep;
   onStepClick: (step: FormStep) => void;
+  dossierNumber?: string;
 }
 
 const steps = [
   { id: FormStep.IDENTIFICATION, label: 'Identification', icon: LayoutGrid },
   { id: FormStep.SECTION_A, label: 'L\'Entreprise', icon: Building2 },
   { id: FormStep.ADMIN_FISCAL, label: 'Personnel & Org.', icon: Users },
-  { id: FormStep.SECTION_C, label: 'Dirigeants', icon: Users },
   { id: FormStep.PATRIMOINE_MOYENS, label: 'Patrimoine', icon: Briefcase },
   { id: FormStep.FINANCES_JURIDIQUE, label: 'Finances & Juridique', icon: CreditCard },
   { id: FormStep.PROJET_DESCRIPTION, label: 'Description Projet', icon: FileText },
-  { id: FormStep.PROGRAMME_INVESTISSEMENT, label: 'Investissements', icon: HardHat },
   { id: FormStep.DONNEES_MARCHE, label: 'Marché & Stratégie', icon: Globe },
   { id: FormStep.QUALITE_ENVIRONNEMENT, label: 'Qualité & Prod.', icon: ShieldAlert },
   { id: FormStep.GARANTIES_OFFERTES, label: 'Garanties', icon: Landmark },
@@ -41,20 +40,20 @@ const steps = [
   { id: FormStep.DECLARATION_FINALE, label: 'Déclaration', icon: PenTool },
 ];
 
-export const Layout: React.FC<LayoutProps> = ({ children, currentStep, onStepClick }) => {
+export const Layout: React.FC<LayoutProps> = ({ children, currentStep, onStepClick, dossierNumber }) => {
   return (
-    <div className="min-h-screen flex bg-[#F8FAFC] dark:bg-slate-950 transition-colors duration-300">
+    <div className="min-h-screen flex bg-background text-foreground transition-colors duration-300">
       {/* SIDEBAR */}
-      <aside className="w-80 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col sticky top-0 h-screen overflow-y-auto z-20 transition-colors duration-300">
+      <aside className="w-80 bg-card border-r border-border flex flex-col sticky top-0 h-screen overflow-y-auto z-20 transition-colors duration-300">
         <div className="p-8">
           <div className="flex items-center justify-between mb-10">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 rounded-xl flex items-center justify-center font-black text-xl shadow-xl shadow-slate-200 dark:shadow-none">
-                F
+              <div className="w-10 h-10 bg-primary text-primary-foreground rounded-xl flex items-center justify-center font-black text-xl shadow-xl shadow-slate-200 dark:shadow-none">
+                C
               </div>
               <div>
-                <h1 className="font-black text-lg text-slate-900 dark:text-white leading-none uppercase tracking-tighter">FPI RDC</h1>
-                <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest mt-1">Crédit Digital</p>
+                <h1 className="font-black text-lg text-foreground leading-none uppercase tracking-tighter">Crédit Digital</h1>
+                <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mt-1">Plateforme de Financement</p>
               </div>
             </div>
             <ThemeToggle />
@@ -109,10 +108,10 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentStep, onStepCli
 
       {/* CONTENT */}
       <main className="flex-1 overflow-x-hidden">
-        <header className="h-20 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-100 dark:border-slate-800 px-10 flex items-center justify-between sticky top-0 z-10 transition-colors duration-300">
+        <header className="h-20 bg-card/80 backdrop-blur-md border-b border-border px-10 flex items-center justify-between sticky top-0 z-10 transition-colors duration-300">
           <div className="flex items-center gap-4">
-            <span className="text-[10px] font-black text-slate-300 dark:text-slate-700 uppercase tracking-[0.3em]">Demande n° 2024-FPI-882</span>
-            <div className="h-4 w-px bg-slate-100 dark:bg-slate-800" />
+            <span className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.3em]">Demande n° {dossierNumber || 'GÉNÉRATION...'}</span>
+            <div className="h-4 w-px bg-border" />
             <span className={`text-[9px] font-black px-2 py-0.5 rounded-full uppercase ${currentStep === FormStep.EVALUATION_ENVIRONNEMENTALE ? 'bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400' : 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'}`}>Brouillon Automatique</span>
           </div>
           <div className="flex items-center gap-6">

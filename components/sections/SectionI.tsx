@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { FPIFormData, StepStatus } from '../../types';
+import { CreditFormData, StepStatus } from '../../types';
 import { RequiredDocumentUpload } from '../common/RequiredDocumentUpload';
 import { 
   Leaf, 
@@ -12,7 +12,8 @@ import {
   Trees, 
   AlertCircle,
   FileText,
-  CreditCard
+  CreditCard,
+  FileCheck
 } from 'lucide-react';
 import { FormSectionWrapper } from '../ui/FormSectionWrapper';
 import { FormRadioGroup } from '../ui/FormRadioGroup';
@@ -22,8 +23,8 @@ import { FormCheckboxGroup } from '../ui/FormCheckboxGroup';
 import { FormSelect } from '../ui/FormSelect';
 
 interface SectionProps {
-  formData: FPIFormData;
-  updateData: (fields: Partial<FPIFormData>) => void;
+  formData: CreditFormData;
+  updateData: (fields: Partial<CreditFormData>) => void;
 }
 
 export const SectionI: React.FC<SectionProps> = ({ formData, updateData }) => {
@@ -33,17 +34,18 @@ export const SectionI: React.FC<SectionProps> = ({ formData, updateData }) => {
   };
 
   const StatusSelector = ({ label, value, onChange }: { label: string, value: StepStatus, onChange: (v: StepStatus) => void }) => (
-    <div className="space-y-4 p-8 rounded-3xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800 shadow-inner">
-      <label className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">{label}</label>
+    <div className="space-y-4 p-8 rounded-3xl bg-card border border-border shadow-inner">
+      <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{label}</label>
       <div className="flex flex-wrap gap-3">
         {['Réalisée', 'Prévue et non réalisée', 'Non prévue'].map(opt => (
           <button
             key={opt}
+            type="button"
             onClick={() => onChange(opt as StepStatus)}
             className={`px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all ${
               value === opt 
-                ? 'bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 shadow-xl scale-105' 
-                : 'bg-white dark:bg-slate-900 text-slate-400 dark:text-slate-500 border border-slate-200 dark:border-slate-800 hover:border-slate-400 dark:hover:border-slate-600'
+                ? 'bg-primary text-primary-foreground shadow-xl scale-105' 
+                : 'bg-background text-muted-foreground border border-border hover:border-slate-400 dark:hover:border-slate-600'
             }`}
           >
             {opt}
@@ -246,10 +248,10 @@ export const SectionI: React.FC<SectionProps> = ({ formData, updateData }) => {
         <div className="grid grid-cols-1 gap-12">
           
           {/* 70.1 AIR */}
-          <div className="p-10 rounded-[3rem] bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800 space-y-8 shadow-sm">
+          <div className="p-10 rounded-[3rem] bg-card border border-border space-y-8 shadow-sm">
             <div className="flex items-center gap-4">
               <Wind className="text-emerald-600 dark:text-emerald-400" size={28} />
-              <h5 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-widest">70.1 Rejets Atmosphériques</h5>
+              <h5 className="text-sm font-black text-foreground uppercase tracking-widest">70.1 Rejets Atmosphériques</h5>
             </div>
             <FormRadioGroup 
               label="Le projet génère-t-il des rejets dans l'air ?"
@@ -277,10 +279,10 @@ export const SectionI: React.FC<SectionProps> = ({ formData, updateData }) => {
           </div>
 
           {/* 70.2 EAU */}
-          <div className="p-10 rounded-[3rem] bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800 space-y-8 shadow-sm">
+          <div className="p-10 rounded-[3rem] bg-card border border-border space-y-8 shadow-sm">
             <div className="flex items-center gap-4">
               <Droplets className="text-blue-600 dark:text-blue-400" size={28} />
-              <h5 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-widest">70.2 Effluents Liquides</h5>
+              <h5 className="text-sm font-black text-foreground uppercase tracking-widest">70.2 Effluents Liquides</h5>
             </div>
             <FormRadioGroup 
               label="Le projet génère-t-il des effluents liquides ?"
@@ -318,10 +320,10 @@ export const SectionI: React.FC<SectionProps> = ({ formData, updateData }) => {
           </div>
 
           {/* 70.3 BRUIT */}
-          <div className="p-10 rounded-[3rem] bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800 space-y-8 shadow-sm">
+          <div className="p-10 rounded-[3rem] bg-card border border-border space-y-8 shadow-sm">
             <div className="flex items-center gap-4">
               <Volume2 className="text-amber-600 dark:text-amber-400" size={28} />
-              <h5 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-widest">70.3 Nuisances Sonores</h5>
+              <h5 className="text-sm font-black text-foreground uppercase tracking-widest">70.3 Nuisances Sonores</h5>
             </div>
             <FormRadioGroup 
               label="Le projet génère-t-il des nuisances sonores ?"
@@ -415,18 +417,18 @@ export const SectionI: React.FC<SectionProps> = ({ formData, updateData }) => {
       </div>
 
       {/* 71. FRAIS D'OUVERTURE */}
-      <div className="space-y-12 pt-12 border-t border-slate-100 dark:border-slate-800">
-        <div className="flex items-center gap-4 border-b border-slate-100 dark:border-slate-800 pb-4">
-          <CreditCard className="text-slate-400" size={24} />
-          <h4 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-widest">71. Frais de Dossier</h4>
+      <div className="space-y-12 pt-12 border-t border-border">
+        <div className="flex items-center gap-4 border-b border-border pb-4">
+          <CreditCard className="text-muted-foreground" size={24} />
+          <h4 className="text-sm font-black text-foreground uppercase tracking-widest">71. Frais de Dossier</h4>
         </div>
-        <div className="bg-slate-900 dark:bg-slate-100 p-10 rounded-[3rem] shadow-2xl space-y-10">
+        <div className="bg-primary text-primary-foreground p-10 rounded-[3rem] shadow-2xl space-y-10">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
             <div className="flex items-center gap-6">
               <div className="w-16 h-16 bg-emerald-500 rounded-2xl flex items-center justify-center text-white shadow-lg">
                 <FileText size={32} />
               </div>
-              <h6 className="text-sm font-black text-white dark:text-slate-900 uppercase tracking-widest">Avez-vous payé les frais d'ouverture du dossier au FPI ?</h6>
+              <h6 className="text-sm font-black uppercase tracking-widest">Avez-vous payé les frais d'ouverture du dossier ?</h6>
             </div>
             <FormRadioGroup 
               value={formData.fraisOuverturePayes}
@@ -440,11 +442,11 @@ export const SectionI: React.FC<SectionProps> = ({ formData, updateData }) => {
           {formData.fraisOuverturePayes && (
             <div className="animate-in slide-in-from-top-4 duration-300">
               <RequiredDocumentUpload 
-                id="recu_paiement_fpi" 
+                id="recu_paiement_frais" 
                 label="Copie du reçu / bordereau de paiement" 
                 required={true}
-                currentFile={formData.files['recu_paiement_fpi'] || null}
-                onFileSelect={(f) => handleFileChange('recu_paiement_fpi', f)}
+                currentFile={formData.files['recu_paiement_frais'] || null}
+                onFileSelect={(f) => handleFileChange('recu_paiement_frais', f)}
               />
             </div>
           )}

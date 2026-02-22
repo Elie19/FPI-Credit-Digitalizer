@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Layout } from './components/Layout';
-import { FormStep, FPIFormData } from './types';
+import { FormStep, CreditFormData } from './types';
 import { SectionA } from './components/sections/SectionA';
 import { SectionB } from './components/sections/SectionB';
 import { SectionC } from './components/sections/SectionC';
@@ -17,10 +17,12 @@ import { SectionIdentification } from './components/sections/SectionIdentificati
 import { ArrowRight, ArrowLeft, CheckCircle2 } from 'lucide-react';
 
 // INITIALISATION AVEC VALEURS PAR DÉFAUT VIDES
-const INITIAL_DATA: FPIFormData = {
+const INITIAL_DATA: CreditFormData = {
   ifuRccm: '', natureProjet: '', montantCredit: '', butCredit: 'NEUF',
-  nationalitePromoteur: 'Congolaise',
-  raisonSociale: '', sigle: '', formeJuridique: '', dateCreation: '', paysCreation: 'RDC',
+  nationalitePromoteur: 'Nationale',
+  dossierNumber: '',
+  submissionDate: '',
+  raisonSociale: '', sigle: '', formeJuridique: '', dateCreation: '', paysCreation: 'Pays',
   dateDebutActivites: '', dateAutorisationOuverture: '', refAutorisationOuverture: '',
   activitePrincipale: '', activiteSecondaire: '', montantCapitalSocial: '', deviseCapital: 'USD',
   shareholders: [], actionnaireActivitesAutres: false,
@@ -104,9 +106,16 @@ const INITIAL_DATA: FPIFormData = {
 
 export default function App() {
   const [currentStep, setCurrentStep] = useState<FormStep>(FormStep.IDENTIFICATION);
-  const [formData, setFormData] = useState<FPIFormData>(INITIAL_DATA);
+  const [formData, setFormData] = useState<CreditFormData>(() => {
+    const data = { ...INITIAL_DATA };
+    const year = new Date().getFullYear();
+    const random = Math.floor(1000 + Math.random() * 9000);
+    data.dossierNumber = `PROJET-${year}-${random}`;
+    data.submissionDate = new Date().toLocaleDateString('fr-FR');
+    return data;
+  });
 
-  const updateData = (fields: Partial<FPIFormData>) => setFormData(prev => ({ ...prev, ...fields }));
+  const updateData = (fields: Partial<CreditFormData>) => setFormData(prev => ({ ...prev, ...fields }));
 
   const renderSection = () => {
     switch (currentStep) {
@@ -114,28 +123,20 @@ export default function App() {
         return <SectionIdentification formData={formData} updateData={updateData} />;
       case FormStep.SECTION_A:
         return <SectionA formData={formData} updateData={updateData} />;
-      case FormStep.SECTION_B:
-      case FormStep.PATRIMOINE_MOYENS:
-        return <SectionB formData={formData} updateData={updateData} />;
-      case FormStep.SECTION_C:
       case FormStep.ADMIN_FISCAL:
         return <SectionC formData={formData} updateData={updateData} />;
-      case FormStep.SECTION_D:
+      case FormStep.PATRIMOINE_MOYENS:
+        return <SectionB formData={formData} updateData={updateData} />;
       case FormStep.FINANCES_JURIDIQUE:
         return <SectionD formData={formData} updateData={updateData} />;
-      case FormStep.SECTION_E:
       case FormStep.PROJET_DESCRIPTION:
         return <SectionE formData={formData} updateData={updateData} />;
-      case FormStep.SECTION_F:
       case FormStep.DONNEES_MARCHE:
         return <SectionF formData={formData} updateData={updateData} />;
-      case FormStep.SECTION_G:
       case FormStep.QUALITE_ENVIRONNEMENT:
         return <SectionG formData={formData} updateData={updateData} />;
-      case FormStep.SECTION_H:
       case FormStep.GARANTIES_OFFERTES:
         return <SectionH formData={formData} updateData={updateData} />;
-      case FormStep.SECTION_I:
       case FormStep.EVALUATION_ENVIRONNEMENTALE:
         return <SectionI formData={formData} updateData={updateData} />;
       case FormStep.CHECKLIST_DOCUMENTS:
@@ -152,12 +153,12 @@ export default function App() {
     }
   };
 
-  const TOTAL_STEPS = Object.keys(FormStep).length / 2; // Approximatif si enums doublés
-  const progress = Math.round(((currentStep + 1) / 14) * 100);
+  const TOTAL_STEPS = 12;
+  const progress = Math.round(((currentStep + 1) / TOTAL_STEPS) * 100);
 
   return (
-    <Layout currentStep={currentStep} onStepClick={setCurrentStep}>
-      <div className="bg-white dark:bg-slate-900 rounded-[2.5rem] shadow-2xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-800 p-8 md:p-12 min-h-[800px] flex flex-col relative overflow-hidden transition-colors duration-300">
+    <Layout currentStep={currentStep} onStepClick={setCurrentStep} dossierNumber={formData.dossierNumber}>
+      <div className="bg-card text-card-foreground rounded-[2.5rem] shadow-2xl shadow-slate-200/50 dark:shadow-none border border-border p-8 md:p-12 min-h-[800px] flex flex-col relative overflow-hidden transition-colors duration-300">
         
         {/* Header */}
         <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-slate-50 dark:border-slate-800 pb-8 relative z-10">
@@ -165,25 +166,25 @@ export default function App() {
             <div className="w-16 h-16 bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 rounded-2xl flex items-center justify-center font-black text-2xl shadow-2xl shadow-slate-200 dark:shadow-none">
               {currentStep === FormStep.IDENTIFICATION ? 'ID' :
                currentStep === FormStep.SECTION_A ? 'A' :
-               currentStep === FormStep.SECTION_B ? 'B' :
-               currentStep === FormStep.SECTION_C ? 'C' : 
-               currentStep === FormStep.SECTION_D ? 'D' : 
-               currentStep === FormStep.SECTION_E ? 'E' : 
-               currentStep === FormStep.SECTION_F ? 'F' : 
-               currentStep === FormStep.SECTION_G ? 'G' : 
-               currentStep === FormStep.SECTION_H ? 'H' : 
-               currentStep === FormStep.SECTION_I ? 'I' : 
+               currentStep === FormStep.ADMIN_FISCAL ? 'B' :
+               currentStep === FormStep.PATRIMOINE_MOYENS ? 'C' : 
+               currentStep === FormStep.FINANCES_JURIDIQUE ? 'D' : 
+               currentStep === FormStep.PROJET_DESCRIPTION ? 'E' : 
+               currentStep === FormStep.DONNEES_MARCHE ? 'F' : 
+               currentStep === FormStep.QUALITE_ENVIRONNEMENT ? 'G' : 
+               currentStep === FormStep.GARANTIES_OFFERTES ? 'H' : 
+               currentStep === FormStep.EVALUATION_ENVIRONNEMENTALE ? 'I' : 
                currentStep === FormStep.CHECKLIST_DOCUMENTS ? 'J' : 
                currentStep === FormStep.DECLARATION_FINALE ? 'K' : currentStep}
             </div>
             <div>
-              <h2 className="text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-none">
+              <h2 className="text-3xl font-black text-foreground uppercase tracking-tighter leading-none">
                 {FormStep[currentStep]?.replace(/_/g, ' ')}
               </h2>
               <div className="flex items-center gap-2 mt-2">
-                <span className={`w-2 h-2 rounded-full animate-pulse ${currentStep >= FormStep.SECTION_I ? 'bg-emerald-500' : 'bg-green-500'}`} />
-                <p className="text-slate-400 dark:text-slate-500 text-[10px] font-black uppercase tracking-[0.3em]">
-                  Formulaire Officiel FPI
+                <span className={`w-2 h-2 rounded-full animate-pulse ${currentStep >= FormStep.EVALUATION_ENVIRONNEMENTALE ? 'bg-emerald-500' : 'bg-green-500'}`} />
+                <p className="text-muted-foreground text-[10px] font-black uppercase tracking-[0.3em]">
+                  Formulaire Officiel de Demande
                 </p>
               </div>
             </div>
@@ -196,7 +197,7 @@ export default function App() {
             </div>
             <div className="h-3 bg-slate-50 dark:bg-slate-800 rounded-full overflow-hidden shadow-inner">
               <div 
-                className={`h-full bg-gradient-to-r transition-all duration-700 ease-out rounded-full ${currentStep >= FormStep.SECTION_I ? 'from-emerald-500 to-teal-500' : 'from-blue-600 to-indigo-600'}`}
+                className={`h-full bg-gradient-to-r transition-all duration-700 ease-out rounded-full ${currentStep >= FormStep.EVALUATION_ENVIRONNEMENTALE ? 'from-emerald-500 to-teal-500' : 'from-blue-600 to-indigo-600'}`}
                 style={{ width: `${progress}%` }} 
               />
             </div>
@@ -223,13 +224,13 @@ export default function App() {
           </button>
           
           <button 
-            onClick={() => setCurrentStep(prev => (prev < 13 ? prev + 1 : prev))}
+            onClick={() => setCurrentStep(prev => (prev < 11 ? prev + 1 : prev))}
             className={`group flex items-center gap-4 px-10 py-5 rounded-[2rem] font-black text-[10px] uppercase tracking-[0.2em] shadow-2xl transition-all transform hover:-translate-y-1 active:translate-y-0 ${
-              currentStep >= FormStep.SECTION_I ? 'bg-emerald-900 dark:bg-emerald-100 hover:bg-emerald-700 dark:hover:bg-emerald-200 shadow-emerald-200/50 dark:shadow-none' : 'bg-slate-900 dark:bg-slate-100 hover:bg-blue-600 dark:hover:bg-slate-200 shadow-slate-300/50 dark:shadow-none'
-            } text-white dark:text-slate-900`}
+              currentStep >= FormStep.EVALUATION_ENVIRONNEMENTALE ? 'bg-emerald-900 dark:bg-emerald-100 hover:bg-emerald-700 dark:hover:bg-emerald-200 shadow-emerald-200/50 dark:shadow-none' : 'bg-primary dark:bg-primary-foreground hover:opacity-90 shadow-slate-300/50 dark:shadow-none'
+            } text-primary-foreground dark:text-primary`}
           >
-            {currentStep === 13 ? 'Soumettre le dossier' : 'Étape Suivante'}
-            {currentStep === 13 ? <CheckCircle2 size={18} /> : <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />}
+            {currentStep === 11 ? 'Soumettre le dossier' : 'Étape Suivante'}
+            {currentStep === 11 ? <CheckCircle2 size={18} /> : <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />}
           </button>
         </div>
       </div>

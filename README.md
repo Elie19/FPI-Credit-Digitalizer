@@ -1,10 +1,10 @@
 <div align="center">
-<img width="1200" height="475" alt="FPI Banner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+<img width="1200" height="475" alt="Banner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
 </div>
 
-# FPI RDC - Plateforme de Crédit Digital
+# Plateforme de Crédit Digital
 
-Bienvenue sur l'application officielle de numérisation des demandes de crédit du **Fonds de Promotion de l'Industrie (FPI)**. Cette plateforme permet aux entreprises de soumettre et de gérer leurs dossiers de financement de manière intuitive, sécurisée et moderne.
+Bienvenue sur l'application de numérisation des demandes de crédit. Cette plateforme permet aux entreprises de soumettre et de gérer leurs dossiers de financement de manière intuitive, sécurisée et moderne.
 
 ## 🚀 Fonctionnalités clés
 
@@ -47,4 +47,4 @@ Suivez ces étapes pour lancer l'application sur votre machine :
 - **Vite** (Build Tool)
 
 ---
-© 2026 Fonds de Promotion de l'Industrie (FPI) - République Démocratique du Congo.
+© 2026 Plateforme de Crédit Digital. Tous droits réservés.

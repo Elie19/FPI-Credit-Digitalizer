@@ -74,7 +74,7 @@ export interface FinancingRow {
   item: string;
   designation: string;
   partPromoteur: string;
-  creditFPI: string;
+  creditInstitution: string;
 }
 
 export interface SiteAccessRow {
@@ -232,19 +232,21 @@ export interface RequiredDoc {
   formats: string[];
   maxSizeMB: number;
   required: boolean;
-  condition?: (data: FPIFormData) => boolean;
+  condition?: (data: CreditFormData) => boolean;
   code?: string;
   section?: string;
 }
 
 // --- STATE GLOBAL ---
-export interface FPIFormData {
+export interface CreditFormData {
   ifuRccm: string;
   natureProjet: string;
   montantCredit: string;
   butCredit: string;
   butCreditAutre?: string;
   nationalitePromoteur: string;
+  dossierNumber: string;
+  submissionDate: string;
 
   // SECTION A
   raisonSociale: string;
@@ -420,22 +422,13 @@ export enum FormStep {
   IDENTIFICATION = 0,
   SECTION_A = 1,
   ADMIN_FISCAL = 2,
-  SECTION_C = 3,
-  PATRIMOINE_MOYENS = 4,
-  SECTION_B = 4,
-  FINANCES_JURIDIQUE = 5,
-  SECTION_D = 5,
-  PROJET_DESCRIPTION = 6,
-  SECTION_E = 6,
-  PROGRAMME_INVESTISSEMENT = 7,
-  DONNEES_MARCHE = 8,
-  SECTION_F = 8,
-  QUALITE_ENVIRONNEMENT = 9,
-  SECTION_G = 9,
-  GARANTIES_OFFERTES = 10,
-  SECTION_H = 10,
-  EVALUATION_ENVIRONNEMENTALE = 11,
-  SECTION_I = 11,
-  CHECKLIST_DOCUMENTS = 12,
-  DECLARATION_FINALE = 13
+  PATRIMOINE_MOYENS = 3,
+  FINANCES_JURIDIQUE = 4,
+  PROJET_DESCRIPTION = 5,
+  DONNEES_MARCHE = 6,
+  QUALITE_ENVIRONNEMENT = 7,
+  GARANTIES_OFFERTES = 8,
+  EVALUATION_ENVIRONNEMENTALE = 9,
+  CHECKLIST_DOCUMENTS = 10,
+  DECLARATION_FINALE = 11
 }
