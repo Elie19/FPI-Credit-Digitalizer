@@ -1,19 +1,15 @@
-<div align="center">
-<img width="1200" height="475" alt="Banner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
-
 # Plateforme de Crédit Digital
 
 Bienvenue sur l'application de numérisation des demandes de crédit. Cette plateforme permet aux entreprises de soumettre et de gérer leurs dossiers de financement de manière intuitive, sécurisée et moderne.
 
-## 🚀 Fonctionnalités clés
+## Fonctionnalités clés
 
 - **Formulaire Multi-étapes** : Un parcours guidé de l'identification à la déclaration finale.
 - **Gestion Documentaire** : Téléchargement et vérification des pièces jointes requises.
 - **Interface Moderne** : Design épuré avec support du mode sombre/clair.
 - **Validation en Temps Réel** : Assistance à la saisie pour garantir la complétude des dossiers.
 
-## 💻 Installation Locale
+##  Installation Locale
 
 Suivez ces étapes pour lancer l'application sur votre machine :
 
@@ -39,7 +35,7 @@ Suivez ces étapes pour lancer l'application sur votre machine :
    ```
    L'application sera accessible sur `http://localhost:3000`.
 
-## 🛠️ Technologies utilisées
+##  Technologies utilisées
 
 - **React 19** & **TypeScript**
 - **Tailwind CSS** (Styling)
