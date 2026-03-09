@@ -3,7 +3,7 @@
 export type BooleanChoice = boolean;
 export type OwnershipType = 'Propriétaire' | 'Locataire';
 export type AssetCondition = 'Bon' | 'Mauvais';
-export type Currency = 'USD' | 'CDF' | 'EUR';
+export type Currency = 'USD' | 'CDF' | 'EUR' | 'FCFA' | 'ZAR' | 'NGN' | 'KES';
 
 export type Level = 'Élevé' | 'Moyen' | 'Faible' | 'Élevées' | 'Moyennes' | 'Faibles' | 'Non' | 'Non applicable' | 'N/A';
 export type StatusLevel = 'Oui' | 'En cours' | 'Non' | 'Non applicable' | 'Neutre';
@@ -74,7 +74,7 @@ export interface FinancingRow {
   item: string;
   designation: string;
   partPromoteur: string;
-  creditInstitution: string;
+  creditFPI: string;
 }
 
 export interface SiteAccessRow {

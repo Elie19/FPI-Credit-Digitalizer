@@ -23,3 +23,18 @@ export const FPI_CHECKLIST: RequiredDoc[] = [
 export const FORME_JURIDIQUE_OPTIONS = [
   'GIE', 'SAAG', 'SACA', 'SARL', 'SARLU', 'SAS', 'SAU', 'SCS', 'SNC', 'SP', 'Entreprise individuelle / Établissement'
 ];
+
+export const COUNTRIES = [
+  'République Démocratique du Congo', 'Congo-Brazzaville', 'Angola', 'Zambie', 'Tanzanie', 'Burundi', 'Rwanda', 'Ouganda', 'Soudan du Sud', 'Centrafrique',
+  'France', 'Belgique', 'USA', 'Chine', 'Inde', 'Afrique du Sud', 'Nigeria', 'Kenya', 'Sénégal', 'Côte d\'Ivoire', 'Autre'
+];
+
+export const CURRENCIES = [
+  { value: 'USD', label: 'Dollar Américain (USD)' },
+  { value: 'CDF', label: 'Franc Congolais (CDF)' },
+  { value: 'EUR', label: 'Euro (EUR)' },
+  { value: 'FCFA', label: 'Franc CFA (FCFA)' },
+  { value: 'ZAR', label: 'Rand Sud-Africain (ZAR)' },
+  { value: 'NGN', label: 'Naira Nigérian (NGN)' },
+  { value: 'KES', label: 'Shilling Kényan (KES)' }
+];

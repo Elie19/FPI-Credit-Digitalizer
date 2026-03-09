@@ -1,12 +1,13 @@
 
 import React from 'react';
-import { FPIFormData } from '../../types';
-import { FileCheck, AlertCircle } from 'lucide-react';
+import { CreditFormData } from '../../types';
+import { FileCheck, AlertCircle, Upload } from 'lucide-react';
 import { FormSectionWrapper } from '../ui/FormSectionWrapper';
+import { RequiredDocumentUpload } from '../common/RequiredDocumentUpload';
 
 interface SectionChecklistProps {
-  formData: FPIFormData;
-  updateData: (fields: Partial<FPIFormData>) => void;
+  formData: CreditFormData;
+  updateData: (fields: Partial<CreditFormData>) => void;
 }
 
 export const CHECKLIST_ITEMS = [
@@ -51,52 +52,26 @@ export const CHECKLIST_ITEMS = [
 ];
 
 export const SectionChecklist: React.FC<SectionChecklistProps> = ({ formData, updateData }) => {
-  const toggleItem = (index: number) => {
-    const current = formData.checklistDocuments || {};
-    updateData({
-      checklistDocuments: {
-        ...current,
-        [index]: !current[index]
-      }
-    });
+  const handleFileChange = (key: string, file: File | null) => {
+    updateData({ files: { ...formData.files, [key]: file } });
   };
 
   return (
     <FormSectionWrapper 
-      title="Checklist Documents" 
-      subtitle="Veuillez cocher les documents que vous avez préparés pour votre dossier."
+      title="Pièces Jointes & Checklist" 
+      subtitle="Veuillez joindre les documents requis pour votre dossier."
       icon={FileCheck}
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {CHECKLIST_ITEMS.map((item, index) => (
-          <div 
-            key={index}
-            onClick={() => toggleItem(index)}
-            className={`group flex items-start gap-4 p-5 rounded-3xl border-2 transition-all cursor-pointer ${
-              formData.checklistDocuments?.[index] 
-                ? 'bg-slate-900 dark:bg-slate-100 border-slate-900 dark:border-slate-100 text-white dark:text-slate-900 shadow-xl scale-[1.02]' 
-                : 'bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800 hover:border-slate-200 dark:hover:border-slate-700 text-slate-600 dark:text-slate-400'
-            }`}
-          >
-            <div className={`mt-1 flex-shrink-0 w-6 h-6 rounded-lg border-2 flex items-center justify-center transition-all ${
-              formData.checklistDocuments?.[index]
-                ? 'bg-white dark:bg-slate-900 border-white dark:border-slate-900'
-                : 'border-slate-200 dark:border-slate-700 group-hover:border-slate-300 dark:group-hover:border-slate-600'
-            }`}>
-              {formData.checklistDocuments?.[index] && (
-                <div className="w-3 h-3 bg-slate-900 dark:bg-slate-100 rounded-sm" />
-              )}
-            </div>
-            <div className="flex-1">
-              <span className={`text-[10px] font-black uppercase tracking-wider mb-1 block opacity-50`}>
-                Document {index + 1}
-              </span>
-              <p className={`text-xs font-bold leading-tight ${
-                formData.checklistDocuments?.[index] ? 'text-white dark:text-slate-900' : 'text-slate-900 dark:text-white'
-              }`}>
-                {item}
-              </p>
-            </div>
+          <div key={index} className="bg-white dark:bg-slate-900 p-6 rounded-[2rem] border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all">
+            <RequiredDocumentUpload 
+              id={`checklist_doc_${index}`} 
+              label={item} 
+              required={false}
+              currentFile={formData.files[`checklist_doc_${index}`] || null}
+              onFileSelect={(f) => handleFileChange(`checklist_doc_${index}`, f)}
+            />
           </div>
         ))}
       </div>

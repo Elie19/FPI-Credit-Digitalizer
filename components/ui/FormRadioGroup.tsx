@@ -1,4 +1,5 @@
 import React from 'react';
+import { FormLabel } from './FormLabel';
 
 interface FormRadioGroupProps {
   label: string;
@@ -6,15 +7,14 @@ interface FormRadioGroupProps {
   value: string | boolean;
   onChange: (value: any) => void;
   className?: string;
+  tooltip?: string;
 }
 
-export const FormRadioGroup: React.FC<FormRadioGroupProps> = ({ label, options, value, onChange, className = '' }) => {
+export const FormRadioGroup: React.FC<FormRadioGroupProps> = ({ label, options, value, onChange, className = '', tooltip }) => {
   return (
     <div className={`flex items-center justify-between p-6 bg-slate-50 dark:bg-slate-900/50 rounded-[2rem] border border-slate-100 dark:border-slate-800 shadow-inner ${className}`}>
       <div className="flex items-center gap-4">
-        <label className="text-xs font-black text-slate-900 dark:text-slate-100 uppercase tracking-widest">
-          {label}
-        </label>
+        <FormLabel label={label} tooltip={tooltip} />
       </div>
       <div className="flex bg-white dark:bg-slate-800 p-1 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700">
         {options.map((opt) => (

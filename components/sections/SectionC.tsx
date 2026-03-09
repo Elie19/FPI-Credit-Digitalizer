@@ -1,18 +1,23 @@
 
 import React from 'react';
-import { FPIFormData, PersonnelRow } from '../../types';
+import { CreditFormData, PersonnelRow } from '../../types';
 import { EditableTable } from '../common/EditableTable';
-import { Users, Network, AlertCircle } from 'lucide-react';
+import { Users, Network, AlertCircle, FileUser } from 'lucide-react';
 import { FormSectionWrapper } from '../ui/FormSectionWrapper';
 import { FormRadioGroup } from '../ui/FormRadioGroup';
 import { FormTextarea } from '../ui/FormTextarea';
+import { RequiredDocumentUpload } from '../common/RequiredDocumentUpload';
 
 interface SectionProps {
-  formData: FPIFormData;
-  updateData: (fields: Partial<FPIFormData>) => void;
+  formData: CreditFormData;
+  updateData: (fields: Partial<CreditFormData>) => void;
 }
 
 export const SectionC: React.FC<SectionProps> = ({ formData, updateData }) => {
+  const handleFileChange = (key: string, file: File | null) => {
+    updateData({ files: { ...formData.files, [key]: file } });
+  };
+
   const handleTableUpdate = (id: string, key: keyof PersonnelRow, val: any) => {
     updateData({
       personnelCle: formData.personnelCle.map(p => p.id === id ? { ...p, [key]: val } : p)
@@ -37,7 +42,7 @@ export const SectionC: React.FC<SectionProps> = ({ formData, updateData }) => {
           <div>
             <h5 className="text-xs font-black text-red-800 dark:text-red-300 uppercase tracking-widest mb-2">21. Personnel Clé</h5>
             <p className="text-[10px] font-bold text-red-600/80 dark:text-red-400/80 uppercase tracking-tight leading-relaxed">
-              Joindre en annexe un curriculum vitae complet pour chacune de ces personnes.
+              Veuillez lister le personnel clé et joindre leurs CVs ci-dessous.
             </p>
           </div>
         </div>
@@ -55,6 +60,32 @@ export const SectionC: React.FC<SectionProps> = ({ formData, updateData }) => {
           onRemove={(id) => updateData({ personnelCle: formData.personnelCle.filter(p => p.id !== id) })}
           onChange={handleTableUpdate}
         />
+
+        <div className="bg-slate-50 dark:bg-slate-900/50 p-8 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 space-y-6">
+          <div className="flex items-center gap-4">
+            <FileUser className="text-slate-400" size={24} />
+            <h5 className="text-xs font-black text-slate-900 dark:text-white uppercase tracking-widest">Curriculum Vitae du Personnel Clé</h5>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {formData.personnelCle.map((p, idx) => (
+              p.noms && (
+                <RequiredDocumentUpload 
+                  key={p.id}
+                  id={`cv_personnel_${p.id}`} 
+                  label={`CV - ${p.noms}`} 
+                  description={p.poste}
+                  required={true}
+                  currentFile={formData.files[`cv_personnel_${p.id}`] || null}
+                  onFileSelect={(f) => handleFileChange(`cv_personnel_${p.id}`, f)}
+                />
+              )
+            ))}
+            {formData.personnelCle.filter(p => p.noms).length === 0 && (
+              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest italic">Ajoutez du personnel dans le tableau pour voir les options d'upload.</p>
+            )}
+          </div>
+        </div>
       </div>
 
       {/* Item 22 */}

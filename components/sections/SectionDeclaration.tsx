@@ -1,12 +1,12 @@
 
 import React from 'react';
-import { FPIFormData } from '../../types';
+import { CreditFormData } from '../../types';
 import { PenTool, ShieldCheck, AlertCircle } from 'lucide-react';
 import { FormSectionWrapper } from '../ui/FormSectionWrapper';
 
 interface SectionProps {
-  formData: FPIFormData;
-  updateData: (fields: Partial<FPIFormData>) => void;
+  formData: CreditFormData;
+  updateData: (fields: Partial<CreditFormData>) => void;
 }
 
 export const SectionDeclaration: React.FC<SectionProps> = ({ formData, updateData }) => {

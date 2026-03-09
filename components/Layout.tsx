@@ -72,16 +72,22 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentStep, onStepCli
                   onClick={() => onStepClick(step.id)}
                   className={`w-full group flex items-center gap-4 p-3 rounded-2xl transition-all duration-300 relative ${
                     isActive 
-                      ? (step.id === FormStep.EVALUATION_ENVIRONNEMENTALE ? 'bg-emerald-900 dark:bg-emerald-100 text-white dark:text-emerald-900 shadow-2xl shadow-emerald-200/50 dark:shadow-none' : 'bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 shadow-2xl shadow-slate-300/50 dark:shadow-none')
-                      : 'text-slate-400 dark:text-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200'
+                      ? (step.id === FormStep.EVALUATION_ENVIRONNEMENTALE 
+                          ? 'bg-emerald-900 dark:bg-emerald-100 text-white dark:text-emerald-900 shadow-2xl shadow-emerald-200/50 dark:shadow-none' 
+                          : 'bg-primary text-primary-foreground shadow-2xl shadow-slate-300/50 dark:shadow-none')
+                      : 'text-muted-foreground hover:bg-muted hover:text-foreground'
                   }`}
                 >
                   <div className={`shrink-0 w-8 h-8 rounded-xl flex items-center justify-center transition-colors ${
-                    isActive ? (step.id === FormStep.EVALUATION_ENVIRONNEMENTALE ? 'bg-emerald-600 dark:bg-emerald-500' : 'bg-blue-600 dark:bg-blue-500') : isPast ? 'bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400' : 'bg-slate-100 dark:bg-slate-800 group-hover:bg-slate-200 dark:group-hover:bg-slate-700'
+                    isActive 
+                      ? (step.id === FormStep.EVALUATION_ENVIRONNEMENTALE ? 'bg-emerald-600 dark:bg-emerald-500' : 'bg-blue-600 dark:bg-blue-500') 
+                      : isPast 
+                        ? 'bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400' 
+                        : 'bg-muted group-hover:bg-secondary'
                   }`}>
                     <Icon size={16} />
                   </div>
-                  <span className={`text-[11px] font-black uppercase tracking-wide text-left ${isActive ? 'text-white dark:text-slate-900' : 'text-slate-500 dark:text-slate-400'}`}>
+                  <span className={`text-[11px] font-black uppercase tracking-wide text-left ${isActive ? 'text-primary-foreground' : 'text-muted-foreground'}`}>
                     {step.label}
                   </span>
                   

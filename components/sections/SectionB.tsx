@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { FPIFormData, AssetRow, StockRow } from '../../types';
+import { CreditFormData, AssetRow, StockRow } from '../../types';
 import { EditableTable } from '../common/EditableTable';
 import { RequiredDocumentUpload } from '../common/RequiredDocumentUpload';
 import { Briefcase, Landmark, HardHat, Package, TrendingUp, AlertCircle, FileText } from 'lucide-react';
@@ -8,20 +8,20 @@ import { FormSectionWrapper } from '../ui/FormSectionWrapper';
 import { FormTextarea } from '../ui/FormTextarea';
 
 interface SectionProps {
-  formData: FPIFormData;
-  updateData: (fields: Partial<FPIFormData>) => void;
+  formData: CreditFormData;
+  updateData: (fields: Partial<CreditFormData>) => void;
 }
 
 export const SectionB: React.FC<SectionProps> = ({ formData, updateData }) => {
   
-  const handleTableUpdate = <T extends { id: string }>(key: keyof FPIFormData, id: string, field: keyof T, val: any) => {
+  const handleTableUpdate = <T extends { id: string }>(key: keyof CreditFormData, id: string, field: keyof T, val: any) => {
     const list = (formData[key] as unknown) as T[];
     updateData({
       [key]: list.map(item => item.id === id ? { ...item, [field]: val } : item)
     });
   };
 
-  const handleAddRow = (key: keyof FPIFormData, template: any) => {
+  const handleAddRow = (key: keyof CreditFormData, template: any) => {
     const list = (formData[key] as unknown) as any[];
     updateData({
       [key]: [...list, { ...template, id: Date.now().toString() }]
@@ -140,18 +140,21 @@ export const SectionB: React.FC<SectionProps> = ({ formData, updateData }) => {
         <div className="grid grid-cols-1 gap-8">
           <FormTextarea 
             label="1ère année :"
+            tooltip="Indiquez les volumes produits et les éventuelles difficultés rencontrées lors de l'année N-2."
             value={formData.prodStatsAnnee1}
             onChange={e => updateData({ prodStatsAnnee1: e.target.value })}
             placeholder="Énumérez les statistiques et difficultés..."
           />
           <FormTextarea 
             label="2ème année :"
+            tooltip="Indiquez les volumes produits et les éventuelles difficultés rencontrées lors de l'année N-1."
             value={formData.prodStatsAnnee2}
             onChange={e => updateData({ prodStatsAnnee2: e.target.value })}
             placeholder="..."
           />
           <FormTextarea 
             label="3ème année :"
+            tooltip="Indiquez les volumes produits et les éventuelles difficultés rencontrées lors de l'année en cours (N)."
             value={formData.prodStatsAnnee3}
             onChange={e => updateData({ prodStatsAnnee3: e.target.value })}
             placeholder="..."
@@ -159,6 +162,7 @@ export const SectionB: React.FC<SectionProps> = ({ formData, updateData }) => {
           <div className="pt-8 border-t border-slate-100 dark:border-slate-800">
             <FormTextarea 
               label="Perspectives d’avenir :"
+              tooltip="Décrivez vos prévisions de croissance et vos projets de développement à moyen terme."
               className="shadow-xl shadow-blue-50/50 dark:shadow-none"
               value={formData.perspectivesAvenir}
               onChange={e => updateData({ perspectivesAvenir: e.target.value })}

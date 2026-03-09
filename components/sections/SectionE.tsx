@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { 
-  FPIFormData, 
+  CreditFormData, 
   SiteAccessRow, 
   AssetRow, 
   StockRow, 
@@ -30,8 +30,8 @@ import { FormRadioGroup } from '../ui/FormRadioGroup';
 import { FormTextarea } from '../ui/FormTextarea';
 
 interface SectionProps {
-  formData: FPIFormData;
-  updateData: (fields: Partial<FPIFormData>) => void;
+  formData: CreditFormData;
+  updateData: (fields: Partial<CreditFormData>) => void;
 }
 
 export const SectionE: React.FC<SectionProps> = ({ formData, updateData }) => {
@@ -40,17 +40,17 @@ export const SectionE: React.FC<SectionProps> = ({ formData, updateData }) => {
     updateData({ files: { ...formData.files, [key]: file } });
   };
 
-  const updateTable = <T extends { id: string }>(key: keyof FPIFormData, id: string, field: keyof T, val: any) => {
+  const updateTable = <T extends { id: string }>(key: keyof CreditFormData, id: string, field: keyof T, val: any) => {
     const list = (formData[key] as unknown) as T[];
     updateData({ [key]: list.map(item => item.id === id ? { ...item, [field]: val } : item) });
   };
 
-  const addRow = (key: keyof FPIFormData, template: any) => {
+  const addRow = (key: keyof CreditFormData, template: any) => {
     const list = (formData[key] as unknown) as any[];
     updateData({ [key]: [...list, { ...template, id: Date.now().toString() }] });
   };
 
-  const removeRow = (key: keyof FPIFormData, id: string) => {
+  const removeRow = (key: keyof CreditFormData, id: string) => {
     const list = (formData[key] as unknown) as any[];
     updateData({ [key]: list.filter(item => item.id !== id) });
   };
@@ -75,8 +75,8 @@ export const SectionE: React.FC<SectionProps> = ({ formData, updateData }) => {
             <FormTextarea 
               key={key}
               label={`26 (${key[0].toLowerCase()}). ${key} :`}
-              value={formData[`projet${key}` as keyof FPIFormData] as string}
-              onChange={e => updateData({ [`projet${key}` as keyof FPIFormData]: e.target.value })}
+              value={formData[`projet${key}` as keyof CreditFormData] as string}
+              onChange={e => updateData({ [`projet${key}` as keyof CreditFormData]: e.target.value })}
               placeholder={`Détaillez ${key.toLowerCase()}...`}
             />
           ))}
@@ -84,6 +84,7 @@ export const SectionE: React.FC<SectionProps> = ({ formData, updateData }) => {
           <div className="pt-8 border-t border-slate-100 dark:border-slate-800">
             <FormTextarea 
               label="27. Objectifs quantitatifs de production :"
+              tooltip="Indiquez les volumes de production visés par unité de temps (ex: tonnes par mois, pièces par an)."
               className="bg-slate-50/20 dark:bg-slate-900/20"
               value={formData.objectifsQuantitatifs}
               onChange={e => updateData({ objectifsQuantitatifs: e.target.value })}
@@ -117,7 +118,7 @@ export const SectionE: React.FC<SectionProps> = ({ formData, updateData }) => {
         </div>
 
         <div className="p-10 bg-slate-50 dark:bg-slate-900/50 rounded-[3rem] border border-slate-100 dark:border-slate-800 space-y-10 shadow-inner">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+          <div className="space-y-8">
             <FormInput 
               label="Adresse complète du site"
               value={formData.localisationSite}
@@ -452,18 +453,21 @@ export const SectionE: React.FC<SectionProps> = ({ formData, updateData }) => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-8">
           <FormSelect 
             label="Mode de financement dominant"
+            tooltip="La source principale de financement du projet."
             value={formData.modeFinancementDominant}
             onChange={e => updateData({ modeFinancementDominant: e.target.value as any })}
             options={['Dette senior', 'Dette subordonnée', 'Capital']}
           />
           <FormSelect 
             label="Durée du financement"
+            tooltip="La période sur laquelle le crédit sera remboursé."
             value={formData.dureeFinancement}
             onChange={e => updateData({ dureeFinancement: e.target.value as any })}
             options={['Court terme', 'Moyen terme', 'Long terme', 'Indéterminée']}
           />
           <FormSelect 
             label="Modalité de remboursement"
+            tooltip="La structure des paiements de remboursement (ex: annuités constantes, différé de paiement)."
             value={formData.modaliteRemboursement}
             onChange={e => updateData({ modaliteRemboursement: e.target.value as any })}
             options={['Annuités', 'Annuités avec différé', 'In fine', 'Dividendes']}

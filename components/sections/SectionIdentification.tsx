@@ -1,13 +1,13 @@
 import React from 'react';
-import { FPIFormData } from '../../types';
+import { CreditFormData } from '../../types';
 import { LayoutGrid } from 'lucide-react';
 import { FormSectionWrapper } from '../ui/FormSectionWrapper';
 import { FormInput } from '../ui/FormInput';
-import { FormRadioGroup } from '../ui/FormRadioGroup';
+import { FormSelect } from '../ui/FormSelect';
 
 interface SectionProps {
-  formData: FPIFormData;
-  updateData: (fields: Partial<FPIFormData>) => void;
+  formData: CreditFormData;
+  updateData: (fields: Partial<CreditFormData>) => void;
 }
 
 export const SectionIdentification: React.FC<SectionProps> = ({ formData, updateData }) => {
@@ -29,12 +29,14 @@ export const SectionIdentification: React.FC<SectionProps> = ({ formData, update
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <FormInput 
             label="IFU/RCCM"
+            tooltip="Identifiant Fiscal Unique ou Registre du Commerce et du Crédit Mobilier."
             value={formData.ifuRccm}
             onChange={e => updateData({ ifuRccm: e.target.value })}
             placeholder="Entrez votre numéro IFU ou RCCM"
           />
           <FormInput 
             label="Nature du projet"
+            tooltip="Indiquez s'il s'agit d'une création, d'une extension ou d'une modernisation."
             value={formData.natureProjet}
             onChange={e => updateData({ natureProjet: e.target.value })}
             placeholder="Décrivez brièvement la nature du projet"
@@ -51,10 +53,10 @@ export const SectionIdentification: React.FC<SectionProps> = ({ formData, update
         </div>
 
         <div className="space-y-6">
-          <FormRadioGroup 
+          <FormSelect 
             label="But du crédit :"
             value={formData.butCredit}
-            onChange={v => updateData({ butCredit: v })}
+            onChange={e => updateData({ butCredit: e.target.value })}
             options={butCreditOptions}
           />
           

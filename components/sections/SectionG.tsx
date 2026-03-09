@@ -1,6 +1,6 @@
 import React from 'react';
 import { 
-  FPIFormData, 
+  CreditFormData, 
   SupplyCycleRow, 
   ProductionNormRow, 
   TechnologyRow, 
@@ -25,8 +25,8 @@ import { FormRadioGroup } from '../ui/FormRadioGroup';
 import { FormTextarea } from '../ui/FormTextarea';
 
 interface SectionProps {
-  formData: FPIFormData;
-  updateData: (fields: Partial<FPIFormData>) => void;
+  formData: CreditFormData;
+  updateData: (fields: Partial<CreditFormData>) => void;
 }
 
 export const SectionG: React.FC<SectionProps> = ({ formData, updateData }) => {
@@ -35,17 +35,17 @@ export const SectionG: React.FC<SectionProps> = ({ formData, updateData }) => {
     updateData({ files: { ...formData.files, [key]: file } });
   };
 
-  const updateTable = <T extends { id: string }>(key: keyof FPIFormData, id: string, field: keyof T, val: any) => {
+  const updateTable = <T extends { id: string }>(key: keyof CreditFormData, id: string, field: keyof T, val: any) => {
     const list = (formData[key] as unknown) as T[];
     updateData({ [key]: list.map(item => item.id === id ? { ...item, [field]: val } : item) });
   };
 
-  const addRow = (key: keyof FPIFormData, template: any) => {
+  const addRow = (key: keyof CreditFormData, template: any) => {
     const list = (formData[key] as unknown) as any[];
     updateData({ [key]: [...list, { ...template, id: Date.now().toString() }] });
   };
 
-  const removeRow = (key: keyof FPIFormData, id: string) => {
+  const removeRow = (key: keyof CreditFormData, id: string) => {
     const list = (formData[key] as unknown) as any[];
     updateData({ [key]: list.filter(item => item.id !== id) });
   };

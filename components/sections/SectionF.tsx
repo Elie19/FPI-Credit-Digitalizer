@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { 
-  FPIFormData, 
+  CreditFormData, 
   CompetitorRow, 
   ImportedCompetitorRow, 
   CompetitorSwotRow, 
@@ -25,26 +25,32 @@ import { FormRadioGroup } from '../ui/FormRadioGroup';
 import { FormTextarea } from '../ui/FormTextarea';
 
 interface SectionProps {
-  formData: FPIFormData;
-  updateData: (fields: Partial<FPIFormData>) => void;
+  formData: CreditFormData;
+  updateData: (fields: Partial<CreditFormData>) => void;
 }
 
 export const SectionF: React.FC<SectionProps> = ({ formData, updateData }) => {
   
-  const updateTable = <T extends { id: string }>(key: keyof FPIFormData, id: string, field: keyof T, val: any) => {
+  const updateTable = <T extends { id: string }>(key: keyof CreditFormData, id: string, field: keyof T, val: any) => {
     const list = (formData[key] as unknown) as T[];
     updateData({ [key]: list.map(item => item.id === id ? { ...item, [field]: val } : item) });
   };
 
-  const addRow = (key: keyof FPIFormData, template: any) => {
+  const addRow = (key: keyof CreditFormData, template: any) => {
     const list = (formData[key] as unknown) as any[];
     updateData({ [key]: [...list, { ...template, id: Date.now().toString() }] });
   };
 
-  const removeRow = (key: keyof FPIFormData, id: string) => {
+  const removeRow = (key: keyof CreditFormData, id: string) => {
     const list = (formData[key] as unknown) as any[];
     updateData({ [key]: list.filter(item => item.id !== id) });
   };
+
+  const GROWTH_OPTIONS = ['Élevé', 'Moyen', 'Faible'];
+  const PERSPECTIVE_OPTIONS = ['Élevées', 'Moyennes', 'Faibles'];
+  const YES_NO_NEUTRAL = ['Oui', 'Non', 'Neutre'];
+  const RESILIENCE_OPTIONS = ['Oui, sans difficulté', 'Oui, avec difficulté', 'Non', 'Neutre'];
+  const CIRCUIT_OPTIONS = ['Grossistes', 'Détaillants', 'Direct', 'Agents', 'E-commerce'];
 
   return (
     <FormSectionWrapper 
@@ -70,52 +76,37 @@ export const SectionF: React.FC<SectionProps> = ({ formData, updateData }) => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <FormRadioGroup 
               label="Taux de croissance annuel du marché"
+              tooltip="L'augmentation annuelle estimée de la demande globale pour vos produits."
               value={formData.croissanceMarche}
-              options={[
-                { value: 'Élevé', label: 'Élevé' },
-                { value: 'Moyen', label: 'Moyen' },
-                { value: 'Faible', label: 'Faible' }
-              ]}
+              options={GROWTH_OPTIONS.map(o => ({ value: o, label: o }))}
               onChange={v => updateData({ croissanceMarche: v })}
             />
             <FormRadioGroup 
               label="Perspectives d'évolution (3 à 5 ans)"
+              tooltip="Votre vision de l'évolution du marché à moyen terme."
               value={formData.perspectivesEvolution}
-              options={[
-                { value: 'Élevées', label: 'Élevées' },
-                { value: 'Moyennes', label: 'Moyennes' },
-                { value: 'Faibles', label: 'Faibles' }
-              ]}
+              options={PERSPECTIVE_OPTIONS.map(o => ({ value: o, label: o }))}
               onChange={v => updateData({ perspectivesEvolution: v })}
             />
             <FormRadioGroup 
               label="Avantage implantation géographique"
+              tooltip="Le site choisi offre-t-il un avantage stratégique (proximité clients, matières premières, etc.) ?"
               value={formData.avantageGeographique}
-              options={[
-                { value: 'Oui', label: 'Oui' },
-                { value: 'Non', label: 'Non' },
-                { value: 'Neutre', label: 'Neutre' }
-              ]}
+              options={YES_NO_NEUTRAL.map(o => ({ value: o, label: o }))}
               onChange={v => updateData({ avantageGeographique: v })}
             />
             <FormRadioGroup 
               label="Production locale vs pression prix"
+              tooltip="Votre production locale permet-elle de mieux résister à la concurrence des prix importés ?"
               value={formData.reductionCoutsLocale}
-              options={[
-                { value: 'Oui', label: 'Oui' },
-                { value: 'Non', label: 'Non' },
-                { value: 'Neutre', label: 'Neutre' }
-              ]}
+              options={YES_NO_NEUTRAL.map(o => ({ value: o, label: o }))}
               onChange={v => updateData({ reductionCoutsLocale: v })}
             />
             <FormRadioGroup 
               label="Avantage technologique significatif"
+              tooltip="Utilisez-vous une technologie qui vous donne un avantage majeur sur vos concurrents ?"
               value={formData.avantageTechnologique}
-              options={[
-                { value: 'Oui', label: 'Oui' },
-                { value: 'Non', label: 'Non' },
-                { value: 'Neutre', label: 'Neutre' }
-              ]}
+              options={YES_NO_NEUTRAL.map(o => ({ value: o, label: o }))}
               onChange={v => updateData({ avantageTechnologique: v })}
             />
           </div>
@@ -124,23 +115,13 @@ export const SectionF: React.FC<SectionProps> = ({ formData, updateData }) => {
             <FormRadioGroup 
               label="Résilience - Tensions économiques générales"
               value={formData.resilienceEconomique}
-              options={[
-                { value: 'Oui, sans difficulté', label: 'Oui, sans difficulté' },
-                { value: 'Oui, avec difficulté', label: 'Oui, avec difficulté' },
-                { value: 'Non', label: 'Non' },
-                { value: 'Neutre', label: 'Neutre' }
-              ]}
+              options={RESILIENCE_OPTIONS.map(o => ({ value: o, label: o }))}
               onChange={v => updateData({ resilienceEconomique: v })}
             />
             <FormRadioGroup 
               label="Résilience - Tensions propres au secteur"
               value={formData.resilienceSectorielle}
-              options={[
-                { value: 'Oui, sans difficulté', label: 'Oui, sans difficulté' },
-                { value: 'Oui, avec difficulté', label: 'Oui, avec difficulté' },
-                { value: 'Non', label: 'Non' },
-                { value: 'Neutre', label: 'Neutre' }
-              ]}
+              options={RESILIENCE_OPTIONS.map(o => ({ value: o, label: o }))}
               onChange={v => updateData({ resilienceSectorielle: v })}
             />
           </div>

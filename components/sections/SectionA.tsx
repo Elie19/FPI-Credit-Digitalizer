@@ -1,21 +1,19 @@
 
 import React from 'react';
-import { FPIFormData, Shareholder } from '../../types';
+import { CreditFormData, Shareholder } from '../../types';
 import { EditableTable } from '../common/EditableTable';
 import { RequiredDocumentUpload } from '../common/RequiredDocumentUpload';
-import { Building2, MapPin, FileText } from 'lucide-react';
+import { Building2, MapPin, FileText, UserCircle } from 'lucide-react';
 import { FormInput } from '../ui/FormInput';
 import { FormSelect } from '../ui/FormSelect';
 import { FormSectionWrapper } from '../ui/FormSectionWrapper';
 import { FormRadioGroup } from '../ui/FormRadioGroup';
+import { COUNTRIES, CURRENCIES, FORME_JURIDIQUE_OPTIONS } from '../../constants';
 
 interface SectionProps {
-  formData: FPIFormData;
-  updateData: (fields: Partial<FPIFormData>) => void;
+  formData: CreditFormData;
+  updateData: (fields: Partial<CreditFormData>) => void;
 }
-
-const FORME_JURIDIQUE_OPTIONS = ['SARL', 'SA', 'SAS', 'Ets', 'Autre'];
-const DEVISE_OPTIONS = ['USD', 'CDF', 'EUR'];
 
 export const SectionA: React.FC<SectionProps> = ({ formData, updateData }) => {
   
@@ -48,12 +46,14 @@ export const SectionA: React.FC<SectionProps> = ({ formData, updateData }) => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <FormInput 
           label="1. Raison Sociale"
+          tooltip="Le nom officiel de votre entreprise tel qu'inscrit au RCCM."
           value={formData.raisonSociale}
           onChange={e => updateData({ raisonSociale: e.target.value })}
           placeholder="Nom de l'entreprise..."
         />
         <FormInput 
           label="2. Sigle"
+          tooltip="L'abréviation ou le nom commercial court de votre entreprise."
           value={formData.sigle}
           onChange={e => updateData({ sigle: e.target.value })}
           placeholder="Abréviation..."
@@ -65,6 +65,7 @@ export const SectionA: React.FC<SectionProps> = ({ formData, updateData }) => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <FormSelect 
             label="3. Forme Juridique"
+            tooltip="Le statut légal de l'entreprise (ex: SARL, SA, Etablissement)."
             value={formData.formeJuridique}
             onChange={e => updateData({ formeJuridique: e.target.value })}
             options={FORME_JURIDIQUE_OPTIONS}
@@ -75,11 +76,11 @@ export const SectionA: React.FC<SectionProps> = ({ formData, updateData }) => {
             value={formData.dateCreation}
             onChange={e => updateData({ dateCreation: e.target.value })}
           />
-          <FormInput 
+          <FormSelect 
             label="Pays"
             value={formData.paysCreation}
             onChange={e => updateData({ paysCreation: e.target.value })}
-            placeholder="RDC"
+            options={COUNTRIES}
           />
         </div>
 
@@ -120,10 +121,10 @@ export const SectionA: React.FC<SectionProps> = ({ formData, updateData }) => {
           />
           <FormSelect 
             label="Devise"
-            className="w-40"
+            className="w-64"
             value={formData.deviseCapital}
             onChange={e => updateData({ deviseCapital: e.target.value as any })}
-            options={DEVISE_OPTIONS}
+            options={CURRENCIES}
           />
         </div>
 
@@ -143,11 +144,30 @@ export const SectionA: React.FC<SectionProps> = ({ formData, updateData }) => {
           onChange={handleShareholderUpdate}
         />
         
-        <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-900/30 p-6 rounded-3xl flex items-center gap-4">
-          <FileText className="text-blue-500 dark:text-blue-400" size={24} />
-          <p className="text-xs font-bold text-blue-800 dark:text-blue-300 uppercase tracking-tight">
-            N'oubliez pas de joindre le CV complet de l'associé majoritaire et du gérant.
-          </p>
+        <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-900/30 p-8 rounded-[2.5rem] space-y-6">
+          <div className="flex items-center gap-4">
+            <UserCircle className="text-blue-500 dark:text-blue-400" size={24} />
+            <h5 className="text-xs font-black text-blue-900 dark:text-blue-300 uppercase tracking-widest">Documents du Gérant / Associé Majoritaire</h5>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <RequiredDocumentUpload 
+              id="cv_gerant" 
+              label="CV du Gérant" 
+              description="Curriculum Vitae complet et signé"
+              required={true}
+              currentFile={formData.files['cv_gerant'] || null}
+              onFileSelect={(f) => handleFileChange('cv_gerant', f)}
+            />
+            <RequiredDocumentUpload 
+              id="cv_associe_maj" 
+              label="CV Associé Majoritaire" 
+              description="Si différent du gérant"
+              required={false}
+              currentFile={formData.files['cv_associe_maj'] || null}
+              onFileSelect={(f) => handleFileChange('cv_associe_maj', f)}
+            />
+          </div>
         </div>
       </div>
 
@@ -161,6 +181,7 @@ export const SectionA: React.FC<SectionProps> = ({ formData, updateData }) => {
           <div className="space-y-6">
             <FormInput 
               label="11. Numéro RCCM"
+              tooltip="Numéro au Registre du Commerce et du Crédit Mobilier."
               value={formData.numRCCM}
               onChange={e => updateData({ numRCCM: e.target.value })}
             />
@@ -176,6 +197,7 @@ export const SectionA: React.FC<SectionProps> = ({ formData, updateData }) => {
           <div className="space-y-6">
             <FormInput 
               label="13. Numéro Impôt"
+              tooltip="Numéro d'identification fiscale (NIF)."
               value={formData.numImpot}
               onChange={e => updateData({ numImpot: e.target.value })}
             />

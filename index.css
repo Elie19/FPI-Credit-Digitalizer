@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@variant dark (&:where(.dark, .dark *));
 
 @theme {
   --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
@@ -108,7 +109,7 @@
 }
 
 .input-field {
-  @apply w-full px-4 py-3 rounded-xl border-2 border-border bg-background focus:border-primary font-bold text-sm outline-none transition-all placeholder:text-muted-foreground/30;
+  @apply w-full px-4 py-3 rounded-xl border-2 border-border bg-background focus:border-primary font-bold text-sm outline-none transition-all placeholder:text-muted-foreground/30 text-foreground;
 }
 
 .label-text {

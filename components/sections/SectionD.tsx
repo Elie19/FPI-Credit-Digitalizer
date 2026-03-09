@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { FPIFormData, LoanHistoryRow } from '../../types';
+import { CreditFormData, LoanHistoryRow } from '../../types';
 import { EditableTable } from '../common/EditableTable';
 import { RequiredDocumentUpload } from '../common/RequiredDocumentUpload';
 import { 
@@ -17,8 +17,8 @@ import { FormRadioGroup } from '../ui/FormRadioGroup';
 import { FormTextarea } from '../ui/FormTextarea';
 
 interface SectionProps {
-  formData: FPIFormData;
-  updateData: (fields: Partial<FPIFormData>) => void;
+  formData: CreditFormData;
+  updateData: (fields: Partial<CreditFormData>) => void;
 }
 
 export const SectionD: React.FC<SectionProps> = ({ formData, updateData }) => {

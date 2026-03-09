@@ -1,22 +1,21 @@
 import React from 'react';
+import { FormLabel } from './FormLabel';
 
 interface FormSelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   label: string;
   options: { value: string; label: string }[] | string[];
   error?: string;
   required?: boolean;
+  tooltip?: string;
 }
 
-export const FormSelect: React.FC<FormSelectProps> = ({ label, options, error, required, className = '', ...props }) => {
+export const FormSelect: React.FC<FormSelectProps> = ({ label, options, error, required, tooltip, className = '', ...props }) => {
   return (
     <div className={`space-y-2 ${className}`}>
-      <label className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest flex items-center gap-1">
-        {label}
-        {required && <span className="text-red-500">*</span>}
-      </label>
+      <FormLabel label={label} required={required} tooltip={tooltip} />
       <select
         {...props}
-        className={`w-full px-4 py-3 rounded-xl border-2 border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 focus:border-slate-900 dark:focus:border-slate-400 font-bold text-sm outline-none transition-all text-slate-900 dark:text-slate-100 ${
+        className={`w-full px-4 py-3 rounded-xl border-2 border-border bg-background focus:border-primary font-bold text-sm outline-none transition-all text-foreground ${
           error ? 'border-red-500 focus:border-red-500' : ''
         }`}
       >

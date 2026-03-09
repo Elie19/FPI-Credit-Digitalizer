@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { FPIFormData } from '../../types';
+import { CreditFormData } from '../../types';
 import { RequiredDocumentUpload } from '../common/RequiredDocumentUpload';
 import { 
   ShieldCheck, 
@@ -13,8 +13,8 @@ import {
 import { FormSectionWrapper } from '../ui/FormSectionWrapper';
 
 interface SectionProps {
-  formData: FPIFormData;
-  updateData: (fields: Partial<FPIFormData>) => void;
+  formData: CreditFormData;
+  updateData: (fields: Partial<CreditFormData>) => void;
 }
 
 export const SectionH: React.FC<SectionProps> = ({ formData, updateData }) => {
