@@ -3,6 +3,48 @@ import React from 'react';
 import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 import { CreditFormData } from '../../types';
 
+// Import checklist items
+const CHECKLIST_ITEMS = [
+  "Copie des statuts sociaux de l'entreprise",
+  "Organigramme de l'entreprise",
+  "Copie de l'autorisation d'ouverture de l'entreprise",
+  "Curriculum vitae complet de chacun des associés majoritaires et gérant(s)",
+  "Copie du RCCM",
+  "Copie de l'Identification Nationale",
+  "Copie de la Notification du numéro d'impôt",
+  "Copie des attestations fiscales",
+  "Copie de l'attestation bancaire",
+  "Curriculum vitae complet de la personne ayant qualité d'engager l'entreprise",
+  "Copie de la carte d'identité du promoteur en cours de validité",
+  "Copie des récents PV des réunions, AGO/AGE",
+  "Copie des contrats/factures d'achat des pièces d'équipements déjà acquis du patrimoine de l'entreprise",
+  "Curriculum vitae complet des membres du personnel clé de l'entreprise",
+  "Etats financiers/documents comptables certifiés des trois(3) derniers exercices (sous format OHADA)",
+  "Copie des Contrats de prêt si l'entreprise a déjà bénéficié de concours financiers",
+  "Copie des Échéanciers de remboursement de prêt si l'entreprise a déjà bénéficié de concours financiers",
+  "Copie des permis spéciaux vous permettant d'exercer vos activités ou d'implanter votre projet",
+  "Copie des titres de propriété des terrains et bâtiments du site d'implantation éventuelle du projet",
+  "Copie des Plans d'occupation/croquis des infrastructures du site d'implantation du projet",
+  "Facture pro-forma des différentes dépenses et frais d'investissement",
+  "Devis quantitatifs et estimatifs certifiés de tous travaux de génie civil/plan d'installation dans le cadre du projet",
+  "Factures pro-forma/spécification techniques de deux (2) fournisseurs des équipements à acquérir",
+  "Factures pro-forma des matières premières et intrants de deux (2) fournisseurs différents",
+  "Copie du business plan pour l'appréciation de la pérennité économique et financière du projet",
+  "Tableau de compte de résultat prévisionnel (conforme au SYSCOHADA)",
+  "Tableau des charges d'exploitation prévisionnelle (conforme au SYSCOHADA)",
+  "Tableau des comptes d'exploitation prévisionnelle (conforme au SYSCOHADA)",
+  "Tableau des ressources-emplois (conforme au SYSCOHADA)",
+  "Tableau de l'échéancier de cash-flow (conforme au SYSCOHADA)",
+  "Tableau indicatif prévisionnel de remboursement du prêt sollicité",
+  "Tableau prévisionnel d'amortissement des équipements",
+  "Bilan prévisionnel",
+  "Budget de trésorerie sur douze (12) mois de la première année d'exploitation",
+  "Copie des certificats d'enregistrement des biens donnés en garantie ainsi que les rapports indépendants d'expertise immobilière y relatifs",
+  "Copie de la déclaration sur l'honneur du demandeur de crédit",
+  "Copie du reçu/bordereau obligatoire de paiement des frais d'ouverture dossier",
+  "Copie de la lettre de demande de prêt"
+];
+
 const styles = StyleSheet.create({
   page: {
     padding: 40,
@@ -169,7 +211,53 @@ const styles = StyleSheet.create({
     lineHeight: 1.4,
     marginBottom: 5,
     textAlign: 'justify',
-  }
+  },
+  // Checklist styles
+  checklistRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    paddingVertical: 4,
+    paddingHorizontal: 6,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f1f5f9',
+    borderBottomStyle: 'solid',
+  },
+  checklistRowAlt: {
+    backgroundColor: '#f8fafc',
+  },
+  checklistNumber: {
+    width: 20,
+    fontSize: 7,
+    color: '#64748b',
+    fontWeight: 'bold',
+    flexShrink: 0,
+  },
+  checklistStatus: {
+    width: 14,
+    height: 14,
+    borderWidth: 1,
+    borderColor: '#94a3b8',
+    borderStyle: 'solid',
+    marginRight: 8,
+    flexShrink: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  checklistStatusDone: {
+    borderColor: '#16a34a',
+    backgroundColor: '#dcfce7',
+  },
+  checklistStatusCheck: {
+    fontSize: 9,
+    color: '#16a34a',
+    fontWeight: 'bold',
+  },
+  checklistText: {
+    flex: 1,
+    fontSize: 7,
+    color: '#1e293b',
+    lineHeight: 1.4,
+  },
 });
 
 interface Props {
@@ -520,14 +608,65 @@ export const CreditReportPDF: React.FC<Props> = ({ data }) => {
         {renderFooter()}
       </Page>
 
-      {/* SECTION 11: DECLARATION */}
+      {/* SECTION 11: CHECKLIST PIÈCES JOINTES — PAGE MANQUANTE CORRIGÉE */}
       <Page size="A4" style={styles.page}>
         {renderHeader()}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>11. Déclaration Finale</Text>
+          <Text style={styles.sectionTitle}>11. Checklist des Pièces Jointes</Text>
+          <Text style={{ fontSize: 8, color: '#64748b', marginBottom: 8 }}>
+            Liste des {CHECKLIST_ITEMS.length} documents requis pour l'instruction du dossier. Cochez les documents fournis.
+          </Text>
+
+          <View style={styles.table}>
+            <View style={styles.tableHeader}>
+              <Text style={[styles.tableCell, { width: 20, flex: 0, fontWeight: 'bold' }]}>N°</Text>
+              <Text style={[styles.tableCell, { width: 30, flex: 0, fontWeight: 'bold', textAlign: 'center' }]}>Statut</Text>
+              <Text style={[styles.tableCell, { fontWeight: 'bold' }]}>Document Requis</Text>
+            </View>
+            {CHECKLIST_ITEMS.map((item, index) => {
+              const isProvided = !!(data.files && data.files[`checklist_doc_${index}`]);
+              return (
+                <View key={index} style={[styles.tableRow, index % 2 === 0 ? {} : { backgroundColor: '#f8fafc' }]}>
+                  <Text style={[styles.tableCell, { width: 20, flex: 0, color: '#64748b', fontWeight: 'bold' }]}>
+                    {index + 1}
+                  </Text>
+                  <View style={{ width: 30, flex: 0, alignItems: 'center', justifyContent: 'center' }}>
+                    <View style={[
+                      styles.checklistStatus,
+                      isProvided ? styles.checklistStatusDone : {}
+                    ]}>
+                      {isProvided && <Text style={styles.checklistStatusCheck}>✓</Text>}
+                    </View>
+                  </View>
+                  <Text style={[styles.tableCell, { fontSize: 7, lineHeight: 1.4 }]}>{item}</Text>
+                </View>
+              );
+            })}
+          </View>
+
+          <View style={{ marginTop: 10, padding: 8, backgroundColor: '#fef9c3', borderWidth: 1, borderColor: '#fde047', borderStyle: 'solid' }}>
+            <Text style={{ fontSize: 7, color: '#854d0e', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: 3 }}>Note Importante</Text>
+            <Text style={{ fontSize: 7, color: '#713f12', lineHeight: 1.4 }}>
+              L'absence de l'un de ces documents peut retarder le traitement de votre demande de crédit.
+              Assurez-vous que toutes les copies sont lisibles et certifiées conformes si nécessaire.
+            </Text>
+          </View>
+        </View>
+        {renderFooter()}
+      </Page>
+
+      {/* SECTION 12: DECLARATION FINALE */}
+      <Page size="A4" style={styles.page}>
+        {renderHeader()}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>12. Déclaration Finale</Text>
           <View style={{ padding: 15, borderWidth: 1, borderColor: '#e2e8f0', borderStyle: 'solid', backgroundColor: '#f8fafc' }}>
             <Text style={styles.textBlock}>
               Je, soussigné(e) {data.declarationNom || "____________________"}, agissant en qualité de {data.declarationFonction || "____________________"} pour le compte de l'entreprise {data.raisonSociale || "____________________"}, certifie sur l'honneur l'exactitude des informations fournies dans ce dossier.
+            </Text>
+            
+            <Text style={[styles.textBlock, { marginTop: 8 }]}>
+              Je déclare que j'ai bien pris connaissance du fait que la demande de financement fera l'objet d'une évaluation interne. Je m'engage à fournir libre accès aux analystes évaluateurs tous les documents et locaux ayant un rapport direct avec l'intervention et à mettre tout en œuvre pour que l'instruction de mon dossier se déroule dans les meilleures conditions.
             </Text>
             
             <View style={{ marginTop: 20, flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -538,6 +677,10 @@ export const CreditReportPDF: React.FC<Props> = ({ data }) => {
               <View>
                 <Text style={styles.label}>Le</Text>
                 <Text style={styles.value}>{data.declarationDate || "____________________"}</Text>
+              </View>
+              <View>
+                <Text style={styles.label}>Acceptation Numérique</Text>
+                <Text style={styles.value}>{data.declarationAcceptee ? "✓ Signé numériquement" : "Non signé"}</Text>
               </View>
             </View>
 
@@ -553,6 +696,12 @@ export const CreditReportPDF: React.FC<Props> = ({ data }) => {
           <Text style={{ fontSize: 8, color: '#991b1b', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: 5 }}>Avertissement Légal</Text>
           <Text style={{ fontSize: 7, color: '#991b1b', lineHeight: 1.4 }}>
             Toute fausse déclaration ou usage de faux documents expose le demandeur au rejet de sa demande et à des poursuites judiciaires conformément au code pénal et à la réglementation du FPI.
+          </Text>
+        </View>
+
+        <View style={{ marginTop: 20, padding: 10, backgroundColor: '#eff6ff', borderWidth: 1, borderColor: '#bfdbfe', borderStyle: 'solid' }}>
+          <Text style={{ fontSize: 7, color: '#1e40af', lineHeight: 1.4 }}>
+            Note de confidentialité : Les informations recueillies font l'objet d'un traitement informatique destiné à l'instruction de votre dossier de crédit. Le FPI s'engage à garantir la confidentialité de vos données conformément aux lois en vigueur en République Démocratique du Congo.
           </Text>
         </View>
         {renderFooter()}
